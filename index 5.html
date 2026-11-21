@@ -1,0 +1,1039 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="theme-color" content="#0A0A14">
+<title>Наша семья — бюджет, покупки и мечты</title>
+<style>
+:root{--bg:#0A0A14;--card:#15152E;--ink:#F2F0FA;--muted:#9B94C0;--brand:#8B5CF6;--brand-d:#C4B5FD;--sage:#EC4899;--honey:#F472B6;--pink:#F9A8D4;--navy:#1E1B4B;--line:#2B2752;--shadow:0 8px 26px rgba(0,0,0,.45);--radius:18px}
+*{box-sizing:border-box}
+body{margin:0;font-family:system-ui,-apple-system,'Segoe UI',Roboto,Arial,sans-serif;background:var(--bg);color:var(--ink);line-height:1.5}
+.wrap{max-width:1100px;margin:0 auto;padding:0 16px}
+header{position:sticky;top:0;z-index:20;background:rgba(10,10,20,.94);backdrop-filter:blur(8px);border-bottom:1px solid var(--line)}
+.head{display:flex;align-items:center;justify-content:space-between;gap:12px;padding:14px 0;flex-wrap:wrap}
+.logo{font-family:Georgia,serif;font-size:26px;font-weight:bold}
+.logo span{color:var(--brand)}
+.sub{color:var(--muted);font-size:13px}
+nav{display:flex;gap:8px;flex-wrap:wrap;padding:10px 0}
+.tabbtn{border:1px solid var(--line);background:var(--card);padding:9px 14px;border-radius:99px;cursor:pointer;font-size:15px;color:var(--ink)}
+.tabbtn.active{background:linear-gradient(135deg,#8B5CF6,#EC4899);color:#fff;border-color:transparent}
+.navsep{width:1px;height:22px;background:var(--line);flex:0 0 auto;align-self:center}
+main{padding:20px 0 40px}
+.tabpage{display:none}
+.tabpage.active{display:block}
+h2{font-family:Georgia,serif;margin:8px 0 16px}
+h3{font-family:Georgia,serif;margin:0 0 12px}
+.hero{background:linear-gradient(135deg,#1E1B4B,#4C1D95 55%,#8B5CF6);border-radius:var(--radius);padding:22px;margin-bottom:18px}
+.hero h2{margin:0 0 4px}
+.card{background:var(--card);border-radius:var(--radius);box-shadow:var(--shadow);padding:18px;margin-bottom:18px}
+.grid{display:grid;gap:16px}
+.grid.stats{grid-template-columns:repeat(auto-fit,minmax(200px,1fr));margin-bottom:18px}
+.grid.two{grid-template-columns:1fr 1fr}
+.grid.cards{grid-template-columns:repeat(auto-fill,minmax(260px,1fr))}
+@media(max-width:760px){.grid.two{grid-template-columns:1fr}.catname{width:120px}nav{flex-wrap:nowrap;overflow-x:auto;-webkit-overflow-scrolling:touch;padding-bottom:6px}.tabbtn{white-space:nowrap;flex:0 0 auto}}
+.stat{background:var(--card);border-radius:var(--radius);box-shadow:var(--shadow);padding:16px;border:1px solid var(--line)}
+.stat span{color:var(--muted);font-size:13px;display:block}
+.stat b{font-size:24px}
+.stat small{color:var(--muted);display:block}
+input,select,textarea{padding:10px 12px;border:1px solid var(--line);border-radius:12px;font-size:15px;background:#101026;color:var(--ink)}
+option{background:#15152E;color:#F2F0FA}
+input:focus,select:focus,textarea:focus{outline:2px solid var(--honey);border-color:var(--honey)}
+.form{display:flex;gap:8px;flex-wrap:wrap;margin-bottom:12px}
+.form input,.form select{flex:1 1 160px}
+.btn{background:linear-gradient(135deg,#8B5CF6,#EC4899);color:#fff;border:none;padding:10px 18px;border-radius:12px;cursor:pointer;font-size:15px;font-weight:600}
+.btn:hover{filter:brightness(1.12)}
+.btn.ghost{background:var(--card);color:var(--ink);border:1px solid var(--line)}
+.btn.ghost:hover{border-color:var(--brand);color:var(--brand-d)}
+.btn.small{padding:7px 12px;font-size:14px}
+.btn.danger{color:#FB7185}
+.row{display:flex;gap:10px;align-items:center;flex-wrap:wrap}
+.row.wrap{margin-top:8px}
+.bar{height:10px;background:#1E1B4B;border-radius:99px;overflow:hidden;flex:1}
+.bar.big{height:14px;margin:10px 0}
+.bar>i{display:block;height:100%;background:linear-gradient(90deg,var(--honey),var(--brand));border-radius:99px;transition:width .4s}
+.catrow{display:flex;align-items:center;gap:10px;margin-bottom:10px}
+.catname{width:170px;font-size:14px}
+.rowitem{display:flex;justify-content:space-between;align-items:center;gap:10px;padding:10px 4px;border-bottom:1px dashed var(--line)}
+.rowitem.done span{text-decoration:line-through;color:var(--muted)}
+.rowitem-r{display:flex;align-items:center;gap:8px}
+.ico{background:none;border:none;font-size:15px;cursor:pointer;padding:5px 9px;color:var(--brand-d);text-decoration:none}
+.ico:hover{transform:scale(1.15)}
+.x{background:none;border:none;color:#FB7185;font-size:16px;cursor:pointer;padding:6px 10px}
+.check{display:flex;align-items:center;gap:10px;cursor:pointer;font-size:16px}
+.check input{width:20px;height:20px;accent-color:var(--sage)}
+.mini{padding:8px 0;border-bottom:1px dashed var(--line)}
+.muted{color:var(--muted)}
+.small{font-size:13px}
+.chips{display:flex;gap:8px;flex-wrap:wrap;margin-bottom:16px}
+.chip{border:1px solid var(--line);background:var(--card);padding:8px 14px;border-radius:99px;cursor:pointer;color:var(--ink)}
+.chip.active{background:var(--sage);color:#fff;border-color:var(--sage)}
+.wishcard{background:var(--card);border:1px solid var(--line);border-radius:var(--radius);box-shadow:var(--shadow);padding:16px}
+.wishcard.bought{opacity:.6}
+.wish-top{display:flex;gap:6px;flex-wrap:wrap;margin-bottom:8px}
+.badge{background:rgba(139,92,246,.22);color:#C4B5FD;padding:3px 10px;border-radius:99px;font-size:12px;font-weight:600}
+.badge.soft{background:rgba(236,72,153,.18);color:#F9A8D4}
+.date-result{background:rgba(236,72,153,.08);border:1px dashed var(--honey);border-radius:14px;padding:16px;margin-bottom:12px;font-size:17px;min-height:64px}
+.ingbox{background:#101026;border:1px solid var(--line);border-radius:14px;padding:12px;margin-top:12px}
+.ingbox .check{padding:6px 0;border-bottom:1px dashed var(--line);font-size:15px}
+.ingbox .check.done span{text-decoration:line-through;color:var(--muted)}
+.weekgrid{display:grid;grid-template-columns:repeat(auto-fit,minmax(150px,1fr));gap:10px}
+.daycard{background:#101026;border:1px solid var(--line);border-radius:14px;padding:10px}
+.daycard h4{margin:0 0 8px;font-family:Georgia,serif}
+.daycard .rowitem{padding:6px 0;font-size:14px}
+.ingdetails{margin-bottom:8px}
+.ingdetails summary{cursor:pointer;font-size:14px;color:var(--brand-d);font-weight:600;padding:4px 0}
+.calgrid{display:grid;grid-template-columns:repeat(7,1fr);gap:6px}
+.calcell{background:#101026;border:1px solid var(--line);border-radius:12px;padding:6px;min-height:64px;cursor:pointer;font-size:13px}
+.calcell.empty{background:transparent;border:none;cursor:default}
+.calcell.today{border-color:var(--brand);background:rgba(139,92,246,.25)}
+.calcell.sel{outline:2px solid var(--honey)}
+.calnum{font-weight:700;margin-bottom:4px}
+.calev{background:rgba(139,92,246,.25);color:#C4B5FD;border-radius:6px;padding:1px 5px;margin-top:2px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.calev.imp{background:rgba(236,72,153,.28);color:#F9A8D4;font-weight:700}
+.calhead{display:flex;justify-content:space-between;align-items:center;margin-bottom:10px}
+.calhead h3{margin:0}
+.dow{display:grid;grid-template-columns:repeat(7,1fr);gap:6px;margin-bottom:6px;color:var(--muted);font-size:12px;text-align:center}
+footer{border-top:1px solid var(--line);padding:20px 0 40px}
+.filelabel{display:inline-block}
+#toast{position:fixed;left:50%;bottom:24px;transform:translateX(-50%) translateY(20px);background:linear-gradient(135deg,#8B5CF6,#EC4899);color:#fff;padding:12px 20px;border-radius:99px;opacity:0;pointer-events:none;transition:.3s;z-index:50;max-width:90vw;text-align:center;box-shadow:0 8px 26px rgba(0,0,0,.5)}
+#toast.show{opacity:1;transform:translateX(-50%) translateY(0)}
+a{color:#A78BFA}
+</style>
+</head>
+<body>
+<header>
+  <div class="wrap">
+    <div class="head">
+      <div>
+        <div class="logo">❤️ <span>Наша семья</span></div>
+        <div class="sub">бюджет · покупки · рецепты · меню · мечты</div>
+      </div>
+      <div class="sub" id="todayLine"></div>
+    </div>
+    <nav>
+      <button class="tabbtn active" data-tab="home" onclick="showTab('home')">🏠 Главная</button>
+      <span class="navsep"></span>
+      <button class="tabbtn" data-tab="budget" onclick="showTab('budget')">💰 Бюджет</button>
+      <button class="tabbtn" data-tab="bills" onclick="showTab('bills')">🧾 Платежи</button>
+      <span class="navsep"></span>
+      <button class="tabbtn" data-tab="products" onclick="showTab('products')">🛒 Продукты</button>
+      <button class="tabbtn" data-tab="reno" onclick="showTab('reno')">🔧 Ремонт</button>
+      <span class="navsep"></span>
+      <button class="tabbtn" data-tab="recipes" onclick="showTab('recipes')">🍳 Рецепты</button>
+      <button class="tabbtn" data-tab="meals" onclick="showTab('meals')">🍽 Меню недели</button>
+      <button class="tabbtn" data-tab="calendar" onclick="showTab('calendar')">📅 Календарь</button>
+      <button class="tabbtn" data-tab="dates" onclick="showTab('dates')">💕 Свидания</button>
+      <button class="tabbtn" data-tab="tasks" onclick="showTab('tasks')">🏠 Дела</button>
+      <span class="navsep"></span>
+      <button class="tabbtn" data-tab="wishes" onclick="showTab('wishes')">🎁 Вишлист</button>
+      <button class="tabbtn" data-tab="movies" onclick="showTab('movies')">🎬 Фильмы</button>
+      <button class="tabbtn" data-tab="goals" onclick="showTab('goals')">🎯 Цели</button>
+    </nav>
+  </div>
+</header>
+
+<main class="wrap">
+
+  <!-- ГЛАВНАЯ -->
+  <section id="tab-home" class="tabpage active">
+    <div class="hero">
+      <h2 id="greeting">Привет! 👋</h2>
+      <p class="muted" style="margin:0">Здесь всё для нашей совместной жизни: деньги, покупки, желания и планы. Данные сохраняются автоматически.</p>
+      <div class="row wrap" style="margin-top:12px">
+        <button class="btn small" onclick="quickAdd('expTitle','budget')">➕ Трата</button>
+        <button class="btn small" onclick="quickAdd('prodName','products')">🛒 Продукт</button>
+        <button class="btn small" onclick="quickAdd('billTitle','bills')">🧾 Платёж</button>
+        <button class="btn small" onclick="quickAdd('taskTitle','tasks')">📋 Дело</button>
+      </div>
+    </div>
+    <div id="reminders"></div>
+    <div class="grid stats" id="homeStats"></div>
+    <div class="grid two">
+      <div class="card">
+        <h3>🛒 Что купить</h3>
+        <div id="homeProducts"></div>
+        <button class="btn ghost small" onclick="showTab('products')">Открыть список →</button>
+      </div>
+      <div class="card">
+        <h3>🎁 Ближайшие желания</h3>
+        <div id="homeWishes"></div>
+        <button class="btn ghost small" onclick="showTab('wishes')">Все желания →</button>
+      </div>
+    </div>
+    <div class="grid two">
+      <div class="card">
+        <h3>🐷 Наша копилка</h3>
+        <div id="homeGoals"></div>
+        <button class="btn ghost small" onclick="showTab('goals')">Все цели →</button>
+      </div>
+      <div class="card">
+        <h3>💕 Идея для свидания</h3>
+        <div id="homeDate" class="date-result">Нажмите кнопку — и мы выберем, чем заняться на выходных 🎲</div>
+        <button class="btn" onclick="randomDate('homeDate')">🎲 Выбрать случайно</button>
+      </div>
+    </div>
+    <div class="card">
+      <h3>🍳 Что приготовить сегодня?</h3>
+      <div id="homeRecipe" class="date-result">Нажмите кнопку — и мы выберем рецепт 🎲</div>
+      <button class="btn" onclick="randomRecipe('homeRecipe')">🎲 Выбрать рецепт</button>
+      <button class="btn ghost" onclick="showTab('recipes')">Все рецепты →</button>
+    </div>
+    <div class="card">
+      <h3>🍽 Пожелания на неделю</h3>
+      <div id="homeMeals"></div>
+      <button class="btn ghost small" onclick="showTab('meals')">Меню недели →</button>
+    </div>
+    <div class="card">
+      <h3>📋 Дела и платежи</h3>
+      <div id="homeTodo"></div>
+      <div class="row wrap">
+        <button class="btn ghost small" onclick="showTab('tasks')">Все дела →</button>
+        <button class="btn ghost small" onclick="showTab('bills')">Платежи →</button>
+      </div>
+    </div>
+  </section>
+
+  <!-- БЮДЖЕТ -->
+  <section id="tab-budget" class="tabpage">
+    <h2>💰 Бюджет на месяц</h2>
+    <div class="grid stats" id="budgetStats"></div>
+    <div class="card">
+      <h3>Доход и валюта</h3>
+      <div class="row">
+        <label>Доход на месяц: <input id="incomeInput" type="number" min="0" step="any" style="width:150px"></label>
+        <button class="btn" onclick="setIncome()">Сохранить</button>
+        <label>Валюта:
+          <select id="currencySelect" onchange="setCurrency(this.value)">
+            <option value="£">£ фунты</option>
+            <option value="₽">₽ рубли</option>
+            <option value="$">$ доллары</option>
+          </select>
+        </label>
+      </div>
+      <div class="bar big"><i id="budgetBar"></i></div>
+      <p id="budgetHint" class="muted"></p>
+    </div>
+    <div class="card">
+      <h3>➕ Добавить трату</h3>
+      <form class="form" onsubmit="return addExpense(event)">
+        <input id="expTitle" placeholder="Название, например: Продукты в Tesco" required>
+        <input id="expAmount" type="number" min="0.01" step="0.01" placeholder="Сумма" required>
+        <select id="expCat"></select>
+        <input type="date" id="expDate">
+        <button class="btn">Добавить</button>
+      </form>
+    </div>
+    <div class="grid two">
+      <div class="card">
+        <h3>📊 Траты по категориям</h3>
+        <div id="catBars"></div>
+      </div>
+      <div class="card">
+        <h3>🧾 Все траты</h3>
+        <div id="expList"></div>
+      </div>
+    </div>
+    <div class="card">
+      <h3>📊 Аналитика по месяцам</h3>
+      <div class="row wrap">
+        <select id="anMonth" onchange="setAnMonth(this.value)"></select>
+        <span class="muted small">Выберите месяц — и посмотрите, на что ушли деньги</span>
+      </div>
+      <div id="anStats" class="grid stats" style="margin-top:12px"></div>
+      <div class="grid two" style="margin-top:12px">
+        <div><h4>Куда ушли деньги</h4><div id="anCats"></div></div>
+        <div><h4>Крупные траты месяца</h4><div id="anTop"></div></div>
+      </div>
+      <div style="margin-top:12px"><h4>Все месяцы сразу</h4><div id="anHistory"></div></div>
+    </div>
+  </section>
+
+  <!-- ПРОДУКТЫ -->
+  <section id="tab-products" class="tabpage">
+    <h2>🛒 Список продуктов</h2>
+    <div class="card">
+      <form class="form" onsubmit="return addProduct(event)">
+        <input id="prodName" placeholder="Что купить? Например: Молоко" required>
+        <input id="prodQty" placeholder="Кол-во (1 л, 500 г...)">
+        <select id="prodCat"></select>
+        <input id="prodPrice" type="number" min="0" step="0.01" placeholder="Цена (необязательно)">
+        <input id="prodLink" placeholder="Ссылка на товар (необязательно)" style="flex:1 1 100%">
+        <button class="btn">Добавить</button>
+      </form>
+      <div class="row wrap">
+        <button class="btn ghost small" onclick="addTemplate()">📋 Стандартный набор</button>
+        <button class="btn ghost small" onclick="clearBought()">✔ Убрать купленное</button>
+        <button class="btn ghost small danger" onclick="clearProducts()">🗑 Очистить всё</button>
+      </div>
+      <p id="prodSummary" class="muted"></p>
+      <input id="prodSearch" placeholder="🔍 Поиск по списку..." style="margin-bottom:10px" oninput="prodSearch=this.value;renderProducts()">
+    </div>
+    <div id="prodList"></div>
+  </section>
+
+  <!-- ВИШЛИСТ -->
+  <section id="tab-wishes" class="tabpage">
+    <h2>🎁 Вишлист на праздники</h2>
+    <div class="chips" id="wishChips">
+      <button class="chip active" data-f="all" onclick="setWishFilter('all')">Все</button>
+      <button class="chip" data-f="me" onclick="setWishFilter('me')">👩 Мне</button>
+      <button class="chip" data-f="him" onclick="setWishFilter('him')">👨 Мужу</button>
+      <button class="chip" data-f="us" onclick="setWishFilter('us')">💑 Нам вместе</button>
+    </div>
+    <div class="card">
+      <h3>➕ Добавить желание</h3>
+      <form class="form" onsubmit="return addWish(event)">
+        <input id="wishTitle" placeholder="Что хочется? Например: Наушники Sony" required>
+        <select id="wishFor">
+          <option value="me">👩 Мне</option>
+          <option value="him">👨 Мужу</option>
+          <option value="us">💑 Нам вместе</option>
+        </select>
+        <select id="wishOcc">
+          <option>🎄 Новый год</option>
+          <option>🎂 День рождения</option>
+          <option>💍 Годовщина</option>
+          <option>✨ Просто так</option>
+        </select>
+        <input id="wishPrice" type="number" min="0" step="0.01" placeholder="Цена">
+        <input id="wishLink" placeholder="Ссылка на товар (Wildberries, Ozon, Амазон...)" style="flex:1 1 100%">
+        <select id="wishPrio">
+          <option>🔥 Очень хочу</option>
+          <option>⭐ Хочу</option>
+          <option>💭 Было бы неплохо</option>
+        </select>
+        <button class="btn">Добавить</button>
+      </form>
+    </div>
+    <div class="grid cards" id="wishList"></div>
+  </section>
+
+  <!-- ФИЛЬМЫ И СЕРИАЛЫ -->
+  <section id="tab-movies" class="tabpage">
+    <h2>🎬 Фильмы и сериалы</h2>
+    <div class="card">
+      <h3>➕ Что хотим посмотреть</h3>
+      <form class="form" onsubmit="return addMovie(event)">
+        <input id="movTitle" placeholder="Название, например: Интерстеллар" required>
+        <select id="movType">
+          <option value="film">🎬 Фильм</option>
+          <option value="series">📺 Сериал</option>
+        </select>
+        <input id="movLink" placeholder="Ссылка (трейлер, Кинопоиск...)">
+        <input id="movNote" placeholder="Заметка (необязательно)">
+        <button class="btn">Добавить</button>
+      </form>
+      <div class="chips" id="movChips">
+        <button class="chip active" data-mf="all" onclick="setMovieFilter('all')">Все</button>
+        <button class="chip" data-mf="film" onclick="setMovieFilter('film')">🎬 Фильмы</button>
+        <button class="chip" data-mf="series" onclick="setMovieFilter('series')">📺 Сериалы</button>
+        <button class="chip" data-mf="done" onclick="setMovieFilter('done')">✅ Посмотрено</button>
+      </div>
+      <p id="movSummary" class="muted small"></p>
+      <div id="movList"></div>
+    </div>
+  </section>
+
+  <!-- РЕЦЕПТЫ -->
+  <section id="tab-recipes" class="tabpage">
+    <h2>🍳 Наши рецепты</h2>
+    <div class="card">
+      <h3>➕ Добавить рецепт</h3>
+      <form class="form" onsubmit="return addRecipe(event)">
+        <input id="recTitle" placeholder="Название, например: Паста карбонара" required>
+        <input id="recLink" placeholder="Ссылка на рецепт (https://...)">
+        <select id="recCat"></select>
+        <input id="recTime" type="number" min="1" step="1" placeholder="Время, мин" style="max-width:130px">
+        <select id="recRating">
+          <option value="0">⭐ Без оценки</option>
+          <option value="1">⭐ 1</option>
+          <option value="2">⭐⭐ 2</option>
+          <option value="3">⭐⭐⭐ 3</option>
+          <option value="4">⭐⭐⭐⭐ 4</option>
+          <option value="5">⭐⭐⭐⭐⭐ 5</option>
+        </select>
+        <input id="recNotes" placeholder="Заметка (например: любим оба, без орехов...)">
+        <textarea id="recIng" rows="3" placeholder="Ингредиенты — каждый с новой строки:&#10;Спагетти 200 г&#10;Яйца 2 шт" style="flex:1 1 100%"></textarea>
+        <button class="btn">Добавить</button>
+      </form>
+    </div>
+    <div class="row" style="margin-bottom:16px">
+      <input id="recSearch" placeholder="🔍 Поиск по рецептам..." oninput="renderRecipes()" style="flex:1;min-width:200px">
+      <button class="btn" onclick="randomRecipe('recResult')">🎲 Что приготовить?</button>
+    </div>
+    <div id="recResult" class="date-result" style="display:none"></div>
+    <div class="chips" id="recChips"></div>
+    <div class="grid cards" id="recList"></div>
+  </section>
+
+  <!-- МЕНЮ НЕДЕЛИ -->
+  <section id="tab-meals" class="tabpage">
+    <h2>🍽 Пожелания на неделю</h2>
+    <div class="card">
+      <h3>➕ Добавить пожелание</h3>
+      <form class="form" onsubmit="return addDishWish(event)">
+        <select id="dishWho">
+          <option value="anya">👩 Аня</option>
+          <option value="sergey">👨 Сережа</option>
+        </select>
+        <select id="dishRecipe" onchange="onRecipePick(this.value)"><option value="">✏️ Своё блюдо (вручную)</option></select>
+        <input id="dishName" placeholder="Какое блюдо хочется? Например: Борщ" required>
+        <select id="dishDay"></select>
+        <select id="dishMeal"></select>
+        <input id="dishNote" placeholder="Заметка (необязательно)">
+        <button class="btn">Добавить</button>
+      </form>
+    </div>
+    <div class="grid two">
+      <div class="card"><h3>👩 Пожелания Ани</h3><div id="anyaList"></div></div>
+      <div class="card"><h3>👨 Пожелания Сережи</h3><div id="sergeyList"></div></div>
+    </div>
+    <div class="card">
+      <h3>📅 Неделя в целом</h3>
+      <div class="weekgrid" id="weekGrid"></div>
+    </div>
+  </section>
+
+  <!-- КАЛЕНДАРЬ -->
+  <section id="tab-calendar" class="tabpage">
+    <h2>📅 Календарь важных дат</h2>
+    <div class="card">
+      <h3>➕ Добавить событие</h3>
+      <form class="form" onsubmit="return addEvent(event)">
+        <input id="evTitle" placeholder="Название, например: День рождения мамы" required>
+        <select id="evWho"><option value="anya">👩 Аня</option><option value="sergey">👨 Сережа</option></select>
+        <input type="date" id="evDate" required>
+        <label class="check"><input type="checkbox" id="evImportant"> ⭐ Важная дата</label>
+        <input id="evNote" placeholder="Заметка (необязательно)">
+        <button class="btn">Добавить</button>
+      </form>
+      <p class="muted small">События повторяются каждый год автоматически — добавлять их заново не нужно. Год в дате не важен, учитываются только день и месяц.</p>
+      <div class="row wrap">
+        <button class="btn small" onclick="enableNotifications()">🔔 Включить уведомления</button>
+        <button class="btn ghost small" onclick="testNotif()">Проверить</button>
+        <span id="notifStatus" class="muted small"></span>
+      </div>
+      <p class="muted small">Напоминание о важной дате приходит за день до неё. Уведомления на телефон работают, пока сайт открыт в браузере (на Android — при разрешении и в фоне). Если браузер не даёт уведомления, напоминания всегда видны на главной странице.</p>
+    </div>
+    <div class="grid two">
+      <div class="card">
+        <div class="calhead"><button class="btn ghost small" onclick="calNav(-1)">‹</button><h3 id="calTitle"></h3><button class="btn ghost small" onclick="calNav(1)">›</button></div>
+        <div class="dow"><span>Пн</span><span>Вт</span><span>Ср</span><span>Чт</span><span>Пт</span><span>Сб</span><span>Вс</span></div>
+        <div class="calgrid" id="calGrid"></div>
+      </div>
+      <div>
+        <div class="card" id="dayEvents"></div>
+        <div class="card"><h3>⏰ Ближайшие события</h3><div id="upList"></div></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ЦЕЛИ -->
+  <section id="tab-goals" class="tabpage">
+    <h2>🎯 Цели и копилка</h2>
+    <div class="card">
+      <h3>🐷 Копилка на мечты</h3>
+      <form class="form" onsubmit="return addGoal(event)">
+        <input id="goalTitle" placeholder="Цель, например: Отпуск в Италию" required>
+        <input id="goalTarget" type="number" min="1" step="any" placeholder="Сколько нужно" required>
+        <button class="btn">Добавить цель</button>
+      </form>
+      <div id="goalList" class="grid cards"></div>
+    </div>
+  </section>
+
+  <!-- СВИДАНИЯ -->
+  <section id="tab-dates" class="tabpage">
+    <h2>💕 Свидания и идеи для двоих</h2>
+    <div class="card">
+      <h3>🎲 Чем заняться на выходных</h3>
+      <div id="dateResult" class="date-result">Нажмите кнопку — и мы выберем, чем заняться на выходных 🎲</div>
+      <button class="btn" onclick="randomDate('dateResult')">🎲 Выбрать случайно</button>
+      <form class="form" style="margin-top:12px" onsubmit="return addDateIdea(event)">
+        <input id="dateTitle" placeholder="Своя идея..." required>
+        <input id="dateLink" placeholder="Ссылка (меню, сайт кафе)...">
+        <input id="datePlace" placeholder="Место: адрес или ссылка из 2ГИС" style="flex:1 1 100%">
+        <button class="btn ghost">Добавить</button>
+      </form>
+      <p class="muted small">💡 В «Место» вставьте ссылку из 2ГИС или просто адрес — по кнопке 🗺 откроется карта, а 📋 скопирует ссылку, чтобы поделиться в чате.</p>
+      <div id="dateList"></div>
+    </div>
+  </section>
+
+  <!-- ДЕЛА ПО ДОМУ -->
+  <section id="tab-tasks" class="tabpage">
+    <h2>🏠 Дела по дому</h2>
+    <div class="card">
+      <h3>📋 Список дел</h3>
+      <form class="form" onsubmit="return addTask(event)">
+        <input id="taskTitle" placeholder="Что нужно сделать?" required>
+        <select id="taskWho">
+          <option value="me">👩 Я</option>
+          <option value="him">👨 Муж</option>
+          <option value="us">💑 Вместе</option>
+        </select>
+        <button class="btn">Добавить</button>
+      </form>
+      <div class="chips" id="taskChips">
+        <button class="chip active" data-tf="all" onclick="setTaskFilter('all')">Все</button>
+        <button class="chip" data-tf="me" onclick="setTaskFilter('me')">👩 Я</button>
+        <button class="chip" data-tf="him" onclick="setTaskFilter('him')">👨 Муж</button>
+        <button class="chip" data-tf="us" onclick="setTaskFilter('us')">💑 Вместе</button>
+      </div>
+      <div id="taskList"></div>
+    </div>
+  </section>
+
+  <!-- ОБЯЗАТЕЛЬНЫЕ ПЛАТЕЖИ -->
+  <section id="tab-bills" class="tabpage">
+    <h2>🧾 Обязательные покупки и платежи</h2>
+    <div class="grid stats" id="billsStats"></div>
+    <div class="card">
+      <h3>➕ Добавить платёж</h3>
+      <form class="form" onsubmit="return addBill(event)">
+        <input id="billTitle" placeholder="Например: Аренда, Интернет, Электричество" required>
+        <input id="billAmount" type="number" min="0" step="0.01" placeholder="Сумма (необязательно)">
+        <button class="btn">Добавить</button>
+      </form>
+      <p class="muted small">Галочки автоматически сбрасываются в новом месяце — списку не нужно начинать заново. Можно сбросить и вручную.</p>
+      <div class="row wrap" style="margin-bottom:8px">
+        <button class="btn ghost small" onclick="resetBills()">🔄 Сбросить галочки</button>
+        <button class="btn ghost small danger" onclick="clearBillsDone()">🧹 Убрать оплаченное</button>
+      </div>
+      <div id="billsList"></div>
+    </div>
+  </section>
+
+  <!-- РЕМОНТ ДОМА -->
+  <section id="tab-reno" class="tabpage">
+    <h2>🔧 Ремонт дома</h2>
+    <div class="grid two">
+      <div class="card">
+        <h3>💡 Идеи для ремонта</h3>
+        <form class="form" onsubmit="return addRenoIdea(event)">
+          <input id="riTitle" placeholder="Идея: например, покрасить стену" required>
+          <input id="riLink" placeholder="Ссылка на идею (Pinterest, видео...)" style="flex:1 1 100%">
+          <button class="btn">Добавить идею</button>
+        </form>
+        <div id="riList"></div>
+      </div>
+      <div class="card">
+        <h3>🛒 Покупки для ремонта</h3>
+        <form class="form" onsubmit="return addRenoBuy(event)">
+          <input id="rbName" placeholder="Что купить: краска, лампы..." required>
+          <input id="rbPrice" type="number" min="0" step="0.01" placeholder="Цена">
+          <input id="rbLink" placeholder="Ссылка на товар" style="flex:1 1 100%">
+          <button class="btn">Добавить</button>
+        </form>
+        <p id="rbStats" class="muted small"></p>
+        <div id="rbList"></div>
+      </div>
+    </div>
+  </section>
+
+</main>
+
+<footer class="wrap">
+  <p class="muted">Все данные хранятся только в вашем браузере на этом устройстве — никуда не отправляются. Для надёжности делайте резервную копию.</p>
+  <div class="row wrap">
+    <button class="btn ghost small" onclick="exportData()">💾 Скачать копию данных</button>
+    <label class="btn ghost small filelabel">📂 Загрузить копию<input type="file" accept=".json" hidden onchange="importData(event)"></label>
+    <button class="btn ghost small danger" onclick="resetAll()">🗑 Начать с чистого листа</button>
+  </div>
+  <p id="storageNote" class="muted small"></p>
+</footer>
+
+<div id="toast"></div>
+
+<script>
+const KEY='our-home-v1';
+let storageOK=true;
+try{localStorage.setItem('__t','1');localStorage.removeItem('__t');}catch(e){storageOK=false;}
+const mem={};
+function save(){const s=JSON.stringify(state);if(storageOK){try{localStorage.setItem(KEY,s);}catch(e){}}else{mem[KEY]=s;}}
+function load(){try{const s=storageOK?localStorage.getItem(KEY):mem[KEY];if(s)return JSON.parse(s);}catch(e){}return null;}
+
+const uid=()=>Date.now().toString(36)+Math.random().toString(36).slice(2,7);
+const EXP_CATS=['🛒 Продукты','🚗 Транспорт','🍽 Кафе и рестораны','👕 Одежда','💡 Коммунальные','🎬 Развлечения','💊 Здоровье','🏠 Дом','🎁 Подарки','📦 Прочее'];
+const PROD_CATS=['🥦 Овощи и фрукты','🥩 Мясо и рыба','🥛 Молочка и яйца','🍞 Хлеб и выпечка','🧃 Напитки','🍫 Сладости','🧴 Для дома','📦 Прочее'];
+const REC_CATS=['🥞 Завтраки','🍲 Супы','🍝 Второе','🥗 Салаты и закуски','🧁 Выпечка','🍰 Десерты','🧃 Напитки','📦 Другое'];
+const DAYS=[['mon','Пн'],['tue','Вт'],['wed','Ср'],['thu','Чт'],['fri','Пт'],['sat','Сб'],['sun','Вс'],['any','Любой день']];
+const MEALS=[['any','Любое время'],['breakfast','🥞 Завтрак'],['lunch','🍲 Обед'],['dinner','🍝 Ужин'],['snack','🍎 Перекус']];
+function dayLabel(d){const f=DAYS.find(x=>x[0]===d);return f?f[1]:d;}
+function mealLabel(m){const f=MEALS.find(x=>x[0]===m);return f?f[1]:m;}
+const FOR_LABEL={me:'👩 Мне',him:'👨 Мужу',us:'💑 Нам вместе'};
+const WHO_LABEL={me:'👩 Я',him:'👨 Муж',us:'💑 Вместе'};
+
+function seed(){
+ const recs=seedRecipes();
+ return{
+ currency:'£', income:3200,
+ expenses:[
+  {id:uid(),title:'Продукты в Tesco',amount:86,cat:'🛒 Продукты',date:'2026-11-18'},
+  {id:uid(),title:'Ужин в кафе',amount:45,cat:'🍽 Кафе и рестораны',date:'2026-11-16'},
+  {id:uid(),title:'Проездной на автобус',amount:60,cat:'🚗 Транспорт',date:'2026-11-12'},
+  {id:uid(),title:'Счета за электричество',amount:118,cat:'💡 Коммунальные',date:'2026-11-10'},
+  {id:uid(),title:'Кино',amount:28,cat:'🎬 Развлечения',date:'2026-11-08'},
+  {id:uid(),title:'Аптека',amount:19,cat:'💊 Здоровье',date:'2026-11-05'}
+ ],
+ products:[
+  {id:uid(),name:'Молоко',qty:'1 л',cat:'🥛 Молочка и яйца',price:1.4,done:false},
+  {id:uid(),name:'Яйца',qty:'10 шт',cat:'🥛 Молочка и яйца',price:2.1,done:false},
+  {id:uid(),name:'Куриное филе',qty:'500 г',cat:'🥩 Мясо и рыба',price:6.5,done:false},
+  {id:uid(),name:'Помидоры черри',qty:'250 г',cat:'🥦 Овощи и фрукты',price:2.3,done:true},
+  {id:uid(),name:'Хлеб цельнозерновой',qty:'1 шт',cat:'🍞 Хлеб и выпечка',price:1.6,done:false},
+  {id:uid(),name:'Кофе зерновой',qty:'250 г',cat:'🧃 Напитки',price:5.9,done:false}
+ ],
+ wishes:[
+  {id:uid(),title:'Наушники Sony WH-1000XM5',forWhom:'him',occ:'🎄 Новый год',price:299,link:'',prio:'🔥 Очень хочу',status:'💭 Хочу'},
+  {id:uid(),title:'Книга «Атлант расправил плечи»',forWhom:'me',occ:'🎄 Новый год',price:25,link:'',prio:'⭐ Хочу',status:'💭 Хочу'},
+  {id:uid(),title:'Поездка в Лондон на выходные',forWhom:'us',occ:'💍 Годовщина',price:350,link:'',prio:'🔥 Очень хочу',status:'💭 Хочу'},
+  {id:uid(),title:'Новый блендер',forWhom:'us',occ:'✨ Просто так',price:79,link:'',prio:'💭 Было бы неплохо',status:'🛒 Заказано'}
+ ],
+ goals:[
+  {id:uid(),title:'Отпуск в Италию',target:4000,saved:1250},
+  {id:uid(),title:'Новый диван',target:1500,saved:700},
+  {id:uid(),title:'Подушка безопасности',target:5000,saved:2000}
+ ],
+ dates:[
+  {id:uid(),title:'Пикник в парке Grosvenor',place:'Grosvenor Park, Chester',done:false},
+  {id:uid(),title:'Прогулка вдоль реки Ди в Chester',done:false},
+  {id:uid(),title:'Кино дома с попкорном',done:false},
+  {id:uid(),title:'Новое кафе в центре города',place:'кафе в центре Chester',link:'',done:true},
+  {id:uid(),title:'Велопрогулка до Eccleston',done:false},
+  {id:uid(),title:'Настольные игры вдвоём',done:false}
+ ],
+ dishWishes:[
+  {id:uid(),who:'anya',dish:'Паста карбонара',day:'wed',meal:'dinner',note:'',done:false,recipeId:recs[0].id,ingredients:[]},
+  {id:uid(),who:'anya',dish:'Панкейки с ягодами',day:'sat',meal:'breakfast',note:'На завтрак выходного дня',done:false,recipeId:recs[1].id,ingredients:[]},
+  {id:uid(),who:'sergey',dish:'Борщ со сметаной',day:'tue',meal:'lunch',note:'',done:false,ingredients:[]},
+  {id:uid(),who:'sergey',dish:'Стейк с овощами',day:'fri',meal:'dinner',note:'',done:false,ingredients:[]},
+  {id:uid(),who:'anya',dish:'Шоколадный торт',day:'sun',meal:'snack',note:'К чаю',done:false,ingredients:[]}
+ ],
+ events:[
+  {id:uid(),title:'Новый год',who:'anya',month:1,day:1,important:true,note:'Встречаем вместе 🎄'},
+  {id:uid(),title:'Годовщина свадьбы',who:'sergey',month:2,day:14,important:true,note:''},
+  {id:uid(),title:'День рождения мамы',who:'anya',month:3,day:3,important:true,note:''},
+  {id:uid(),title:'День рождения Сережи',who:'anya',month:6,day:18,important:true,note:''},
+  {id:uid(),title:'День рождения Ани',who:'sergey',month:9,day:9,important:true,note:''},
+  {id:uid(),title:'Рождество',who:'anya',month:12,day:25,important:true,note:''}
+ ],
+ billsMonth:curMonth(),
+ bills:[
+  {id:uid(),title:'Аренда',amount:950,done:false},
+  {id:uid(),title:'Интернет',amount:35,done:false},
+  {id:uid(),title:'Электричество',amount:118,done:false},
+  {id:uid(),title:'Мобильный телефон',amount:15,done:true}
+ ],
+ renIdeas:[
+  {id:uid(),title:'Покрасить стену в спальне',link:''},
+  {id:uid(),title:'Новые светильники в коридор',link:'https://www.pinterest.com/'}
+ ],
+ renBuys:[
+  {id:uid(),name:'Краска для стен',price:42,link:'',done:false},
+  {id:uid(),name:'Светильник в коридор',price:65,link:'',done:true}
+ ],
+ movies:[
+  {id:uid(),title:'Интерстеллар',type:'film',link:'',note:'',done:false},
+  {id:uid(),title:'Достать ножи',type:'film',link:'',note:'',done:false},
+  {id:uid(),title:'Шерлок',type:'series',link:'',note:'4 сезона',done:false},
+  {id:uid(),title:'Чёрное зеркало',type:'series',link:'',note:'',done:true}
+ ],
+ recipes:recs,
+ tasks:[
+  {id:uid(),title:'Пропылесосить гостиную',who:'me',done:false},
+  {id:uid(),title:'Полить цветы',who:'us',done:false},
+  {id:uid(),title:'Вынести мусор',who:'him',done:true},
+  {id:uid(),title:'Разобрать почту и счета',who:'me',done:false}
+ ]
+};}
+function seedRecipes(){return[
+ {id:uid(),title:'Паста карбонара',link:'https://www.bbcgoodfood.com/search/recipes?query=carbonara',cat:'🍝 Второе',time:25,rating:5,notes:'Любим оба! Пармезан побольше',fav:true,ingredients:[{name:'Спагетти 200 г',have:false},{name:'Яйца 2 шт',have:true},{name:'Пармезан 50 г',have:false},{name:'Бекон 100 г',have:false},{name:'Чеснок 2 зубчика',have:true}]},
+ {id:uid(),title:'Панкейки на завтрак',link:'https://www.bbcgoodfood.com/search/recipes?query=pancakes',cat:'🥞 Завтраки',time:20,rating:4,notes:'С ягодами и кленовым сиропом',fav:false,ingredients:[{name:'Мука 200 г',have:true},{name:'Молоко 250 мл',have:true},{name:'Яйца 2 шт',have:false},{name:'Ягоды свежие',have:false},{name:'Кленовый сироп',have:false}]},
+ {id:uid(),title:'Куриный суп',link:'https://www.bbcgoodfood.com/search/recipes?query=chicken%20soup',cat:'🍲 Супы',time:60,rating:4,notes:'',fav:false,ingredients:[{name:'Курица 400 г',have:false},{name:'Картофель 3 шт',have:true},{name:'Морковь 1 шт',have:true},{name:'Лук 1 шт',have:false},{name:'Лавровый лист',have:true}]},
+ {id:uid(),title:'Шоколадный торт',link:'https://www.bbcgoodfood.com/search/recipes?query=chocolate%20cake',cat:'🍰 Десерты',time:90,rating:5,notes:'На годовщину',fav:true,ingredients:[{name:'Мука 250 г',have:true},{name:'Какао 50 г',have:false},{name:'Яйца 4 шт',have:false},{name:'Сахар 200 г',have:true},{name:'Масло сливочное 150 г',have:false},{name:'Шоколад тёмный 100 г',have:false}]}
+];}
+function empty(){return{currency:state?state.currency:'£',income:0,expenses:[],products:[],wishes:[],goals:[],dates:[],tasks:[],recipes:[],dishWishes:[],events:[],notified:{},bills:[],billsMonth:"",renIdeas:[],renBuys:[],movies:[]};}
+
+let state=load()||seed();
+function normalize(){if(!Array.isArray(state.recipes))state.recipes=seedRecipes();state.recipes.forEach(r=>{if(!Array.isArray(r.ingredients))r.ingredients=[];});if(!Array.isArray(state.dishWishes))state.dishWishes=[];state.dishWishes.forEach(w=>{if(!Array.isArray(w.ingredients))w.ingredients=[];});if(!Array.isArray(state.events))state.events=[];if(!state.notified||typeof state.notified!=="object")state.notified={};state.wishes.forEach(w=>{if(w.link===undefined)w.link='';});state.products.forEach(p=>{if(p.link===undefined)p.link='';});state.dates.forEach(d=>{if(d.link===undefined)d.link='';if(d.place===undefined)d.place='';});if(!Array.isArray(state.bills))state.bills=[];if(!state.billsMonth)state.billsMonth='';if(!Array.isArray(state.renIdeas))state.renIdeas=[];if(!Array.isArray(state.renBuys))state.renBuys=[];if(!Array.isArray(state.movies))state.movies=[];}
+normalize();
+let wishFilter='all';
+let recFilter='all';
+
+function esc(s){return String(s==null?'':s).replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));}
+function fmt(n){n=Math.round(Number(n)||0);const s=n.toLocaleString('ru-RU');return state.currency==='₽'?s+' ₽':state.currency+s;}
+function spentTotal(){return state.expenses.reduce((s,e)=>s+(Number(e.amount)||0),0);}
+let toastT;
+function toast(m,undo){const t=document.getElementById('toast');t.textContent=m;if(undo){const b=document.createElement('button');b.textContent='↩️ Отменить';b.style.cssText='margin-left:12px;background:#fff;color:#6D28D9;border:none;border-radius:99px;padding:4px 12px;font-weight:700;cursor:pointer';b.onclick=()=>{undo();clearTimeout(toastT);t.classList.remove('show');};t.appendChild(b);}t.classList.add('show');clearTimeout(toastT);toastT=setTimeout(()=>t.classList.remove('show'),undo?5200:2200);}
+
+function showTab(id){
+ document.querySelectorAll('.tabpage').forEach(p=>p.classList.toggle('active',p.id==='tab-'+id));
+ document.querySelectorAll('.tabbtn').forEach(b=>b.classList.toggle('active',b.dataset.tab===id));
+ try{localStorage.setItem('our-home-tab',id);}catch(e){}
+ window.scrollTo({top:0,behavior:'smooth'});
+}
+
+/* ---------- РЕНДЕР ---------- */
+function renderHome(){
+ const spent=spentTotal(),left=state.income-spent;
+ const savedGoals=state.goals.reduce((s,g)=>s+(Number(g.saved)||0),0);
+ const goalTarget=state.goals.reduce((s,g)=>s+(Number(g.target)||0),0);
+ document.getElementById('homeStats').innerHTML=
+  '<div class="stat"><span>💰 Доход месяца</span><b>'+fmt(state.income)+'</b></div>'+
+  '<div class="stat"><span>🧾 Потрачено</span><b>'+fmt(spent)+'</b></div>'+
+  '<div class="stat"><span>🌿 Осталось</span><b>'+fmt(left)+'</b></div>'+
+  '<div class="stat"><span>🐷 В копилке</span><b>'+fmt(savedGoals)+'</b><small>из '+fmt(goalTarget)+'</small></div>';
+ const todo=state.products.filter(p=>!p.done).slice(0,5);
+ document.getElementById('homeProducts').innerHTML=todo.length?todo.map(p=>'<div class="mini">☐ '+esc(p.name)+' <span class="muted">'+esc(p.qty)+'</span></div>').join(''):'<p class="muted">Список покупок пуст 🎉</p>';
+ const w=state.wishes.filter(x=>x.status!=='✅ Куплено').slice(0,4);
+ document.getElementById('homeWishes').innerHTML=w.length?w.map(x=>'<div class="mini">'+esc(x.title)+' <span class="muted">· '+esc(x.occ)+(x.price?' · '+fmt(x.price):'')+'</span></div>').join(''):'<p class="muted">Желаний пока нет — добавьте в Вишлист!</p>';
+ document.getElementById('homeGoals').innerHTML=state.goals.length?state.goals.map(g=>{const pct=g.target?Math.min(100,Math.round(g.saved/g.target*100)):0;return '<div class="mini"><b>'+esc(g.title)+'</b> — '+fmt(g.saved)+' из '+fmt(g.target)+' ('+pct+'%)<div class="bar" style="margin-top:6px"><i style="width:'+pct+'%"></i></div></div>';}).join(''):'<p class="muted">Добавьте первую цель во вкладке «Цели».</p>';
+ const mw=state.dishWishes.filter(w=>!w.done);
+ document.getElementById('homeMeals').innerHTML=mw.length?mw.slice(0,6).map(w=>'<div class="mini">'+(w.who==='anya'?'👩':'👨')+' '+esc(w.dish)+' <span class="muted">· '+dayLabel(w.day)+(w.meal!=='any'?' · '+mealLabel(w.meal):'')+'</span></div>').join(''):'<p class="muted">Пожеланий пока нет — добавьте в «Меню недели»!</p>';
+ ensureBillsMonth();
+ const ut=state.tasks.filter(t=>!t.done),ub=state.bills.filter(b=>!b.done);
+ document.getElementById('homeTodo').innerHTML=(ut.length||ub.length)?ut.slice(0,4).map(t=>'<div class="mini">☐ '+esc(t.title)+' <span class="muted">· '+(WHO_LABEL[t.who]||'')+'</span></div>').join('')+(ub.length?'<div class="mini">🧾 Оплатить: '+ub.length+' шт. · '+fmt(ub.reduce((s,b)=>s+(Number(b.amount)||0),0))+'</div>':''):'<p class="muted">Всё сделано! Отдыхайте 😌</p>';
+ const t0=new Date();t0.setHours(0,0,0,0);
+ const rems=state.events.filter(e=>e.important).map(e=>({e:e,next:nextOcc(e)})).filter(x=>{const d=Math.round((x.next-t0)/864e5);return d===0||d===1;});
+ document.getElementById('reminders').innerHTML=rems.length?'<div class="card" style="border:2px solid var(--honey);background:rgba(236,72,153,.08)"><h3>⏰ Напоминания</h3>'+rems.map(x=>{const d=Math.round((x.next-t0)/864e5);return '<div class="mini">⭐ <b>'+esc(x.e.title)+'</b> — '+(d===0?'сегодня! 🎉':'завтра')+'</div>';}).join('')+'</div>':'';
+}
+
+function renderBudget(){
+ const spent=spentTotal(),left=state.income-spent;
+ const pct=state.income?Math.min(100,Math.round(spent/state.income*100)):0;
+ document.getElementById('budgetStats').innerHTML=
+  '<div class="stat"><span>💰 Доход</span><b>'+fmt(state.income)+'</b></div>'+
+  '<div class="stat"><span>🧾 Потрачено</span><b>'+fmt(spent)+'</b></div>'+
+  '<div class="stat"><span>🌿 Осталось</span><b>'+fmt(left)+'</b></div>'+
+  '<div class="stat"><span>📈 Потрачено</span><b>'+pct+'%</b><small>от дохода</small></div>';
+ document.getElementById('budgetBar').style.width=pct+'%';
+ document.getElementById('budgetHint').textContent=state.income?(left>=0?'Вы потратили '+fmt(spent)+' из '+fmt(state.income)+'. Осталось '+fmt(left)+'.':'⚠️ Вы превысили доход на '+fmt(-left)+'!'):'Укажите доход на месяц, чтобы видеть остаток.';
+ const byCat={};state.expenses.forEach(e=>{byCat[e.cat]=(byCat[e.cat]||0)+(Number(e.amount)||0);});
+ const entries=Object.entries(byCat).sort((a,b)=>b[1]-a[1]);
+ const max=entries.length?entries[0][1]:1;
+ document.getElementById('catBars').innerHTML=entries.length?entries.map(([c,v])=>'<div class="catrow"><span class="catname">'+esc(c)+'</span><div class="bar"><i style="width:'+Math.round(v/max*100)+'%"></i></div><b>'+fmt(v)+'</b></div>').join(''):'<p class="muted">Пока нет трат. Добавьте первую выше 👆</p>';
+ const list=[...state.expenses].sort((a,b)=>(b.date||'').localeCompare(a.date||''));
+ document.getElementById('expList').innerHTML=list.length?list.map(e=>'<div class="rowitem"><div><b>'+esc(e.title)+'</b><div class="muted small">'+esc(e.cat)+' · '+esc(e.date||'')+'</div></div><div class="rowitem-r"><b>'+fmt(e.amount)+'</b><button class="x" onclick="delExpense(\''+e.id+'\')" title="Удалить">✕</button></div></div>').join(''):'<p class="muted">Трат пока нет.</p>';
+ renderAnalytics();
+}
+
+function renderProducts(){
+ const todo=state.products.filter(p=>!p.done);
+ const sum=todo.reduce((s,p)=>s+(Number(p.price)||0),0);
+ document.getElementById('prodSummary').textContent='Осталось купить: '+todo.length+' из '+state.products.length+' · примерная сумма: '+fmt(sum);
+ const q=(prodSearch||'').trim().toLowerCase();const src=state.products.filter(p=>!q||p.name.toLowerCase().indexOf(q)>=0||(p.qty||'').toLowerCase().indexOf(q)>=0);const groups={};src.forEach(p=>{(groups[p.cat]=groups[p.cat]||[]).push(p);});Object.keys(groups).forEach(k=>groups[k].sort((a,b)=>(a.done?1:0)-(b.done?1:0)));
+ const order=PROD_CATS.filter(c=>groups[c]);
+ document.getElementById('prodList').innerHTML=order.length?order.map(c=>'<div class="card"><h3>'+esc(c)+'</h3>'+groups[c].map(p=>'<div class="rowitem '+(p.done?'done':'')+'"><label class="check"><input type="checkbox" '+(p.done?'checked':'')+' onchange="toggleProduct(\''+p.id+'\')"><span>'+esc(p.name)+(p.qty?' <span class="muted">· '+esc(p.qty)+'</span>':'')+(p.price?' <span class="muted">· '+fmt(p.price)+'</span>':'')+'</span></label><div class="rowitem-r">'+(p.link?'<a href="'+esc(p.link)+'" target="_blank" rel="noopener" title="Открыть товар">🔗</a>':'')+'<button class="x" onclick="editProdLink(\''+p.id+'\')" title="Ссылка на товар">📎</button><button class="x" onclick="delProduct(\''+p.id+'\')">✕</button></div></div>'+(editingLinkProd===p.id?'<div class="row" style="padding:8px 0"><input id="plink-'+p.id+'" value="'+esc(p.link||'')+'" placeholder="https://wildberries.ru/..." style="flex:1"><button class="btn small" onclick="saveProdLink(\''+p.id+'\')">Сохранить</button></div>':'')).join('')+'</div>').join(''):(q?'<div class="card"><p class="muted">Ничего не найдено по запросу «'+esc(prodSearch)+'»</p></div>':'<div class="card"><p class="muted">Список пуст. Добавьте что-нибудь вкусное 🍓</p></div>');
+}
+
+function renderWishes(){
+ document.querySelectorAll('#wishChips .chip').forEach(ch=>ch.classList.toggle('active',ch.dataset.f===wishFilter));
+ const list=state.wishes.filter(w=>wishFilter==='all'||w.forWhom===wishFilter);
+ document.getElementById('wishList').innerHTML=list.length?list.map(w=>'<div class="wishcard '+(w.status==='✅ Куплено'?'bought':'')+'"><div class="wish-top"><span class="badge">'+(FOR_LABEL[w.forWhom]||'')+'</span><span class="badge soft">'+esc(w.occ)+'</span></div><h3>'+esc(w.title)+'</h3><div class="muted">'+esc(w.prio)+' · '+esc(w.status)+(w.price?' · <b>'+fmt(w.price)+'</b>':'')+'</div>'+(w.link?'<a class="btn small" href="'+esc(w.link)+'" target="_blank" rel="noopener">🔗 Открыть товар ↗</a>':'')+'<div class="row wrap"><button class="btn ghost small" onclick="editWishLink(\''+w.id+'\')">'+(w.link?'📎 Сменить ссылку':'📎 Ссылка на товар')+'</button><button class="btn ghost small" onclick="cycleWish(\''+w.id+'\')">'+(w.status==='💭 Хочу'?'🛒 Заказано':(w.status==='🛒 Заказано'?'✅ Куплено':'↩ Снова хочу'))+'</button><button class="btn ghost small danger" onclick="delWish(\''+w.id+'\')">Удалить</button></div>'+(editingLinkWish===w.id?'<div class="row" style="margin-top:8px"><input id="wlink-'+w.id+'" value="'+esc(w.link)+'" placeholder="https://wildberries.ru/..." style="flex:1"><button class="btn small" onclick="saveWishLink(\''+w.id+'\')">Сохранить</button></div>':'')+'</div>').join(''):'<div class="card"><p class="muted">Здесь пока пусто. Добавьте первое желание! 🎁</p></div>';
+}
+
+function renderGoals(){
+ document.getElementById('goalList').innerHTML=state.goals.length?state.goals.map(g=>{const pct=g.target?Math.min(100,Math.round(g.saved/g.target*100)):0;return '<div class="wishcard"><h3>🎯 '+esc(g.title)+'</h3><div class="muted">'+fmt(g.saved)+' из '+fmt(g.target)+' · '+pct+'%</div><div class="bar" style="margin:8px 0"><i style="width:'+pct+'%"></i></div><div class="row"><input type="number" min="0" step="any" placeholder="Сколько отложили?" id="add-'+g.id+'" style="flex:1"><button class="btn small" onclick="addToGoal(\''+g.id+'\')">+ Отложить</button><button class="x" onclick="delGoal(\''+g.id+'\')">✕</button></div></div>';}).join(''):'<p class="muted">Целей пока нет. Добавьте первую мечту ✨</p>';
+ document.getElementById('dateList').innerHTML=state.dates.length?[...state.dates].sort((a,b)=>(a.done?1:0)-(b.done?1:0)).map(d=>{const g=d.place?gisUrl(d.place):'';return '<div class="rowitem '+(d.done?'done':'')+'"><label class="check"><input type="checkbox" '+(d.done?'checked':'')+' onchange="toggleDate(\''+d.id+'\')"><span>'+esc(d.title)+(d.place?' <span class="muted small">📍 '+esc(d.place)+'</span>':'')+'</span></label><div class="rowitem-r">'+(d.link?'<a class="ico" href="'+esc(d.link)+'" target="_blank" rel="noopener" title="Открыть ссылку">🔗</a>':'')+(g?'<button class="ico" onclick="openGIS(\''+d.id+'\')" title="Открыть в 2ГИС">🗺</button><button class="ico" onclick="copyGIS(\''+d.id+'\')" title="Скопировать ссылку 2ГИС">📋</button>':'')+'<button class="x" onclick="delDate(\''+d.id+'\')">✕</button></div></div>';}).join(''):'<p class="muted">Идей пока нет — добавьте свою!</p>';
+ document.querySelectorAll('#taskChips .chip').forEach(ch=>ch.classList.toggle('active',ch.dataset.tf===taskFilter));
+ const tl=[...state.tasks].filter(t=>taskFilter==='all'||t.who===taskFilter).sort((a,b)=>(a.done?1:0)-(b.done?1:0));
+ document.getElementById('taskList').innerHTML=state.tasks.length?(tl.length?tl.map(t=>'<div class="rowitem '+(t.done?'done':'')+'"><label class="check"><input type="checkbox" '+(t.done?'checked':'')+' onchange="toggleTask(\''+t.id+'\')"><span>'+esc(t.title)+' <span class="badge soft">'+(WHO_LABEL[t.who]||'')+'</span></span></label><button class="x" onclick="delTask(\''+t.id+'\')">✕</button></div>').join(''):'<p class="muted">Нет дел с таким фильтром.</p>'):'<p class="muted">Дел нет — отдыхайте! 😌</p>';
+}
+
+function ingHTML(r){
+ const ings=r.ingredients||[];
+ if(!ings.length){
+  return '<div class="ingbox"><div class="muted small">🛒 Ингредиентов пока нет</div><textarea id="ing-'+r.id+'" rows="3" placeholder="Вставьте ингредиенты — каждый с новой строки" style="width:100%;margin:6px 0"></textarea><button class="btn ghost small" onclick="addIng(\''+r.id+'\')">Добавить ингредиенты</button></div>';
+ }
+ const have=ings.filter(i=>i.have).length;
+ const need=ings.length-have;
+ return '<div class="ingbox"><div class="row" style="justify-content:space-between"><b>🛒 Ингредиенты</b><span class="muted small">Есть дома: '+have+' · Купить: '+need+'</span></div>'+ings.map((g,idx)=>'<label class="check '+(g.have?'done':'')+'"><input type="checkbox" '+(g.have?'checked':'')+' onchange="toggleIng(\''+r.id+'\','+idx+')"><span>'+esc(g.name)+'</span></label>').join('')+(need?'<button class="btn small" style="margin-top:8px" onclick="sendToProducts(\''+r.id+'\')">➕ В список продуктов ('+need+')</button>':'<div class="muted small" style="margin-top:6px">🎉 Всё есть дома!</div>')+'</div>';
+}
+function renderRecipes(){
+ const chips=['all',...REC_CATS];
+ document.getElementById('recChips').innerHTML=chips.map(c=>'<button class="chip '+(recFilter===c?'active':'')+'" onclick="setRecipeFilter(\''+c+'\')">'+(c==='all'?'Все':esc(c))+'</button>').join('')+'<button class="chip '+(recFilter==='fav'?'active':'')+'" onclick="setRecipeFilter(\'fav\')">⭐ Избранные</button>';
+ const q=(document.getElementById('recSearch').value||'').toLowerCase();
+ const list=state.recipes.filter(r=>{
+  if(recFilter==='fav'&&!r.fav)return false;
+  if(recFilter!=='all'&&recFilter!=='fav'&&r.cat!==recFilter)return false;
+  if(q&&!(r.title.toLowerCase().includes(q)||(r.notes||'').toLowerCase().includes(q)))return false;
+  return true;
+ });
+ document.getElementById('recList').innerHTML=list.length?list.map(r=>'<div class="wishcard"><div class="wish-top"><span class="badge soft">'+esc(r.cat)+'</span>'+(r.time?'<span class="badge">⏱ '+r.time+' мин</span>':'')+'</div><h3>'+esc(r.title)+'</h3><div class="muted">'+(r.rating?'⭐'.repeat(r.rating):'Без оценки')+'</div>'+(r.notes?'<div class="muted small">📝 '+esc(r.notes)+'</div>':'')+'<div class="row wrap">'+(r.link?'<a class="btn small" href="'+esc(r.link)+'" target="_blank" rel="noopener">Открыть рецепт ↗</a>':'<span class="muted small">Ссылки пока нет</span>')+'<button class="btn ghost small" onclick="toggleFav(\''+r.id+'\')">'+(r.fav?'⭐ В избранном':'☆ В избранное')+'</button><button class="btn ghost small danger" onclick="delRecipe(\''+r.id+'\')">Удалить</button></div>'+ingHTML(r)+'</div>').join(''):'<div class="card"><p class="muted">Рецептов пока нет. Добавьте первый — со ссылкой на сайт с рецептом! 🍳</p></div>';
+}
+function renderMeals(){
+ const sel=document.getElementById('dishRecipe');
+ const cur=sel.value;
+ sel.innerHTML='<option value="">✏️ Своё блюдо (вручную)</option>'+state.recipes.map(r=>'<option value="'+r.id+'">'+esc(r.title)+'</option>').join('');
+ sel.value=cur;
+ const order={mon:0,tue:1,wed:2,thu:3,fri:4,sat:5,sun:6,any:7};
+ const item=(w)=>'<div class="wishitem"><div class="rowitem '+(w.done?'done':'')+'"><div><b>'+esc(w.dish)+'</b><div class="muted small">'+dayLabel(w.day)+(w.meal!=='any'?' · '+mealLabel(w.meal):'')+(w.note?' · 📝 '+esc(w.note):'')+(w.recipeId?' · 🍳 из рецептов':'')+'</div></div><div class="rowitem-r"><button class="btn ghost small" onclick="findRecipeById(\''+w.id+'\')" title="Найти в рецептах">🍳</button><label class="check" title="Приготовили!"><input type="checkbox" '+(w.done?'checked':'')+' onchange="toggleDishWish(\''+w.id+'\')"></label><button class="x" onclick="delDishWish(\''+w.id+'\')">✕</button></div></div><details class="ingdetails" '+(openWishes.has(w.id)?'open':'')+' ontoggle="toggleWishOpen(\''+w.id+'\')"><summary>🛒 Ингредиенты'+(w.recipeId?' (из рецепта)':'')+'</summary><div class="ingbox" style="margin-top:8px">'+wishIngHTML(w)+'</div></details></div>';
+ const byWho=(who)=>[...state.dishWishes].filter(w=>w.who===who).sort((a,b)=>(order[a.day]!=null?order[a.day]:7)-(order[b.day]!=null?order[b.day]:7));
+ document.getElementById('anyaList').innerHTML=byWho('anya').map(item).join('')||'<p class="muted">У Ани пока нет пожеланий. Добавьте первое! 👩</p>';
+ document.getElementById('sergeyList').innerHTML=byWho('sergey').map(item).join('')||'<p class="muted">У Сережи пока нет пожеланий. Добавьте первое! 👨</p>';
+ document.getElementById('weekGrid').innerHTML=DAYS.map(d=>{
+  const ws=state.dishWishes.filter(w=>w.day===d[0]);
+  return '<div class="daycard"><h4>'+d[1]+'</h4>'+(ws.length?ws.map(w=>'<div class="rowitem '+(w.done?'done':'')+'"><label class="check"><input type="checkbox" '+(w.done?'checked':'')+' onchange="toggleDishWish(\''+w.id+'\')"><span>'+(w.who==='anya'?'👩':'👨')+' '+esc(w.dish)+'</span></label></div>').join(''):'<div class="muted small">—</div>')+'</div>';
+ }).join('');
+}
+function renderCalendar(){
+ const y=calY,m=calM;
+ document.getElementById('calTitle').textContent=new Date(y,m,1).toLocaleDateString('ru-RU',{month:'long',year:'numeric'});
+ const first=(new Date(y,m,1).getDay()+6)%7;
+ const dim=new Date(y,m+1,0).getDate();
+ const now=new Date();const isThisMonth=now.getFullYear()===y&&now.getMonth()===m;
+ let cells='';
+ for(let i=0;i<first;i++)cells+='<div class="calcell empty"></div>';
+ for(let d=1;d<=dim;d++){
+  const evs=state.events.filter(e=>e.month===m+1&&e.day===d);
+  const isToday=isThisMonth&&now.getDate()===d;
+  const isSel=selY===y&&selM===m&&selD===d;
+  cells+='<div class="calcell '+(isToday?'today':'')+(isSel?' sel':'')+'" onclick="pickDay('+y+','+m+','+d+')"><div class="calnum">'+d+'</div>'+evs.slice(0,3).map(e=>'<div class="calev '+(e.important?'imp':'')+'">'+esc(e.title)+'</div>').join('')+(evs.length>3?'<div class="muted small">+'+(evs.length-3)+'</div>':'')+'</div>';
+ }
+ document.getElementById('calGrid').innerHTML=cells;
+ const dayEvs=state.events.filter(e=>e.month===selM+1&&e.day===selD);
+ document.getElementById('dayEvents').innerHTML='<h3>'+new Date(selY,selM,selD).toLocaleDateString('ru-RU',{day:'numeric',month:'long',weekday:'long'})+'</h3>'+(dayEvs.length?dayEvs.map(e=>'<div class="rowitem"><div><b>'+(e.important?'⭐ ':'')+esc(e.title)+'</b><div class="muted small">'+(e.who==='anya'?'👩 Аня':'👨 Сережа')+(e.note?' · 📝 '+esc(e.note):'')+'</div></div><button class="x" onclick="delEvent(\''+e.id+'\')">✕</button></div>').join(''):'<p class="muted">Событий нет. Добавьте первое выше!</p>');
+ const t0=new Date();t0.setHours(0,0,0,0);
+ const up=[...state.events].map(e=>({e:e,next:nextOcc(e)})).sort((a,b)=>a.next-b.next).slice(0,8);
+ document.getElementById('upList').innerHTML=up.length?up.map(x=>{
+  const diff=Math.round((x.next-t0)/864e5);
+  const when=diff===0?'сегодня':diff===1?'завтра':'через '+diff+' дн.';
+  return '<div class="rowitem"><div><b>'+(x.e.important?'⭐ ':'')+esc(x.e.title)+'</b><div class="muted small">'+x.next.toLocaleDateString('ru-RU',{day:'numeric',month:'long'})+' · '+(x.e.who==='anya'?'👩 Аня':'👨 Сережа')+' · '+when+'</div></div><button class="x" onclick="delEvent(\''+x.e.id+'\')">✕</button></div>';
+ }).join(''):'<p class="muted">Событий пока нет.</p>';
+ const st=('Notification' in window)?Notification.permission:'unsupported';
+ document.getElementById('notifStatus').textContent=st==='granted'?'✅ Уведомления включены':st==='denied'?'⛔ Уведомления запрещены в браузере':'🔔 Уведомления выключены';
+}
+function renderAll(){renderHome();renderBudget();renderProducts();renderRecipes();renderMeals();renderCalendar();renderWishes();renderGoals();renderBills();renderReno();renderMovies();}
+
+/* ---------- БЮДЖЕТ ---------- */
+function addExpense(e){e.preventDefault();const t=document.getElementById('expTitle').value.trim();const a=parseFloat(document.getElementById('expAmount').value);if(!t||!(a>0))return false;state.expenses.push({id:uid(),title:t,amount:a,cat:document.getElementById('expCat').value,date:document.getElementById('expDate').value||new Date().toISOString().slice(0,10)});save();renderAll();e.target.reset();document.getElementById('expDate').value=new Date().toISOString().slice(0,10);const fi=e.target.querySelector('input');if(fi)fi.focus();toast('Трата добавлена 🧾');return false;}
+function delExpense(id){const i=state.expenses.findIndex(x=>x.id===id);if(i<0)return;const it=state.expenses[i];state.expenses.splice(i,1);save();renderAll();toast('Трата удалена',()=>{state.expenses.splice(i,0,it);save();renderAll();toast('Возвращено ✅');});}
+function setIncome(){const v=parseFloat(document.getElementById('incomeInput').value);state.income=isNaN(v)?0:v;save();renderAll();toast('Доход сохранён 💰');}
+function setCurrency(v){state.currency=v;save();renderAll();toast('Валюта изменена');}
+
+/* ---------- ПРОДУКТЫ ---------- */
+function addProduct(e){e.preventDefault();const n=document.getElementById('prodName').value.trim();if(!n)return false;const p=parseFloat(document.getElementById('prodPrice').value);state.products.push({id:uid(),name:n,qty:document.getElementById('prodQty').value.trim(),cat:document.getElementById('prodCat').value,price:isNaN(p)?0:p,link:document.getElementById('prodLink').value.trim(),done:false});save();renderAll();e.target.reset();const fi=e.target.querySelector('input');if(fi)fi.focus();toast('Добавлено в список 🛒');return false;}
+function toggleProduct(id){const p=state.products.find(x=>x.id===id);if(p){p.done=!p.done;save();renderAll();}}
+function delProduct(id){const i=state.products.findIndex(x=>x.id===id);if(i<0)return;const it=state.products[i];state.products.splice(i,1);save();renderAll();toast('Продукт удалён',()=>{state.products.splice(i,0,it);save();renderAll();toast('Возвращено ✅');});}
+function clearBought(){state.products=state.products.filter(p=>!p.done);save();renderAll();toast('Купленное убрано ✔');}
+function clearProducts(){if(confirm('Очистить весь список продуктов?')){state.products=[];save();renderAll();}}
+function addTemplate(){const items=[['Молоко','1 л','🥛 Молочка и яйца',1.4],['Яйца','10 шт','🥛 Молочка и яйца',2.1],['Хлеб','1 шт','🍞 Хлеб и выпечка',1.6],['Куриное филе','500 г','🥩 Мясо и рыба',6.5],['Помидоры','500 г','🥦 Овощи и фрукты',2.5],['Огурцы','3 шт','🥦 Овощи и фрукты',1.8],['Кофе','250 г','🧃 Напитки',5.9],['Сыр','200 г','🥛 Молочка и яйца',3.4]];items.forEach(i=>state.products.push({id:uid(),name:i[0],qty:i[1],cat:i[2],price:i[3],done:false}));save();renderAll();toast('Стандартный набор добавлен 📋');}
+
+/* ---------- ВИШЛИСТ ---------- */
+function setWishFilter(f){wishFilter=f;renderWishes();}
+function addWish(e){e.preventDefault();const t=document.getElementById('wishTitle').value.trim();if(!t)return false;const p=parseFloat(document.getElementById('wishPrice').value);state.wishes.push({id:uid(),title:t,forWhom:document.getElementById('wishFor').value,occ:document.getElementById('wishOcc').value,price:isNaN(p)?0:p,link:document.getElementById('wishLink').value.trim(),prio:document.getElementById('wishPrio').value,status:'💭 Хочу'});save();renderAll();e.target.reset();const fi=e.target.querySelector('input');if(fi)fi.focus();toast('Желание добавлено 🎁');return false;}
+function cycleWish(id){const w=state.wishes.find(x=>x.id===id);if(!w)return;w.status=w.status==='💭 Хочу'?'🛒 Заказано':(w.status==='🛒 Заказано'?'✅ Куплено':'💭 Хочу');save();renderAll();}
+function delWish(id){const i=state.wishes.findIndex(x=>x.id===id);if(i<0)return;const it=state.wishes[i];state.wishes.splice(i,1);save();renderAll();toast('Желание удалено',()=>{state.wishes.splice(i,0,it);save();renderAll();toast('Возвращено ✅');});}
+
+/* ---------- ЦЕЛИ / СВИДАНИЯ / ДЕЛА ---------- */
+function addGoal(e){e.preventDefault();const t=document.getElementById('goalTitle').value.trim();const tg=parseFloat(document.getElementById('goalTarget').value);if(!t||!(tg>0))return false;state.goals.push({id:uid(),title:t,target:tg,saved:0});save();renderAll();e.target.reset();toast('Цель добавлена 🎯');return false;}
+function addToGoal(id){const inp=document.getElementById('add-'+id);const v=parseFloat(inp.value);if(!(v>0)){toast('Введите сумму 🙂');return;}const g=state.goals.find(x=>x.id===id);if(g){g.saved=(Number(g.saved)||0)+v;save();renderAll();toast('Отложено в копилку 🐷');}}
+function delGoal(id){state.goals=state.goals.filter(x=>x.id!==id);save();renderAll();}
+function addDateIdea(e){e.preventDefault();const t=document.getElementById('dateTitle').value.trim();if(!t)return false;state.dates.push({id:uid(),title:t,link:document.getElementById('dateLink').value.trim(),place:document.getElementById('datePlace').value.trim(),done:false});save();renderAll();e.target.reset();const fi=e.target.querySelector('input');if(fi)fi.focus();toast('Идея добавлена 💕');return false;}
+function toggleDate(id){const d=state.dates.find(x=>x.id===id);if(d){d.done=!d.done;save();renderAll();}}
+function delDate(id){state.dates=state.dates.filter(x=>x.id!==id);save();renderAll();}
+function randomDate(elId){const pool=state.dates.filter(d=>!d.done);const src=pool.length?pool:state.dates;const el=document.getElementById(elId);if(!src.length){el.textContent='Сначала добавьте идеи свиданий 💕';return;}const pick=src[Math.floor(Math.random()*src.length)];el.innerHTML='💕 <b>'+esc(pick.title)+'</b>'+(pick.link?' <a href="'+esc(pick.link)+'" target="_blank" rel="noopener">↗</a>':'')+(gisUrl(pick.place)?'<div class="muted small">📍 <a href="'+esc(gisUrl(pick.place))+'" target="_blank" rel="noopener">Открыть в 2ГИС ↗</a></div>':'')+'<div class="muted small">Отличный план на выходные!</div>';}
+let taskFilter='all';
+function setTaskFilter(f){taskFilter=f;renderGoals();}
+function addTask(e){e.preventDefault();const t=document.getElementById('taskTitle').value.trim();if(!t)return false;state.tasks.push({id:uid(),title:t,who:document.getElementById('taskWho').value,done:false});save();renderAll();e.target.reset();const fi=e.target.querySelector('input');if(fi)fi.focus();toast('Дело добавлено 🏠');return false;}
+function toggleTask(id){const t=state.tasks.find(x=>x.id===id);if(t){t.done=!t.done;save();renderAll();}}
+function delTask(id){const i=state.tasks.findIndex(x=>x.id===id);if(i<0)return;const it=state.tasks[i];state.tasks.splice(i,1);save();renderAll();toast('Дело удалено',()=>{state.tasks.splice(i,0,it);save();renderAll();toast('Возвращено ✅');});}
+
+/* ---------- РЕЦЕПТЫ ---------- */
+function setRecipeFilter(f){recFilter=f;renderRecipes();}
+function addRecipe(e){e.preventDefault();const t=document.getElementById('recTitle').value.trim();if(!t)return false;const tm=parseFloat(document.getElementById('recTime').value);state.recipes.push({id:uid(),title:t,link:document.getElementById('recLink').value.trim(),cat:document.getElementById('recCat').value,time:isNaN(tm)?0:tm,rating:parseInt(document.getElementById('recRating').value)||0,notes:document.getElementById('recNotes').value.trim(),fav:false,ingredients:document.getElementById('recIng').value.split('\n').map(s=>s.trim()).filter(Boolean).map(n=>({name:n,have:false}))});save();renderAll();e.target.reset();const fi=e.target.querySelector('input');if(fi)fi.focus();toast('Рецепт добавлен 🍳');return false;}
+function toggleFav(id){const r=state.recipes.find(x=>x.id===id);if(r){r.fav=!r.fav;save();renderAll();}}
+function delRecipe(id){state.recipes=state.recipes.filter(x=>x.id!==id);state.dishWishes.forEach(w=>{if(w.recipeId===id)w.recipeId=null;});save();renderAll();}
+function randomRecipe(elId){const el=document.getElementById(elId);if(!state.recipes.length){el.style.display='block';el.textContent='Сначала добавьте рецепты 🍳';return;}const r=state.recipes[Math.floor(Math.random()*state.recipes.length)];el.style.display='block';el.innerHTML='🍳 <b>'+esc(r.title)+'</b>'+(r.time?' · ⏱ '+r.time+' мин':'')+(r.link?'<div><a href="'+esc(r.link)+'" target="_blank" rel="noopener">Открыть рецепт ↗</a></div>':'<div class="muted small">Ссылки пока нет</div>');}
+
+function addIng(id){const ta=document.getElementById('ing-'+id);if(!ta)return;const lines=ta.value.split('\n').map(s=>s.trim()).filter(Boolean);const r=state.recipes.find(x=>x.id===id);if(!r||!lines.length){toast('Вставьте хотя бы один ингредиент 🙂');return;}r.ingredients=(r.ingredients||[]).concat(lines.map(n=>({name:n,have:false})));save();renderRecipes();renderMeals();toast('Ингредиенты добавлены 🛒');}
+function toggleIng(id,idx){const r=state.recipes.find(x=>x.id===id);if(r&&r.ingredients&&r.ingredients[idx]){r.ingredients[idx].have=!r.ingredients[idx].have;save();renderRecipes();renderMeals();}}
+function sendToProducts(id){const r=state.recipes.find(x=>x.id===id);if(!r)return;let added=0;const names=new Set(state.products.filter(p=>!p.done).map(p=>p.name.toLowerCase()));(r.ingredients||[]).filter(g=>!g.have).forEach(g=>{if(!names.has(g.name.toLowerCase())){state.products.push({id:uid(),name:g.name,qty:'',cat:'📦 Прочее',price:0,done:false});added++;}});save();renderAll();toast(added?('В список продуктов добавлено: '+added+' 🛒'):'Все нужные продукты уже в списке ✔');}
+
+function addDishWish(e){e.preventDefault();const n=document.getElementById('dishName').value.trim();if(!n)return false;state.dishWishes.push({id:uid(),who:document.getElementById('dishWho').value,dish:n,day:document.getElementById('dishDay').value,meal:document.getElementById('dishMeal').value,note:document.getElementById('dishNote').value.trim(),done:false,recipeId:document.getElementById('dishRecipe').value||null,ingredients:[]});save();renderAll();e.target.reset();toast('Пожелание добавлено 🍽');return false;}
+function toggleDishWish(id){const w=state.dishWishes.find(x=>x.id===id);if(w){w.done=!w.done;save();renderAll();}}
+function delDishWish(id){state.dishWishes=state.dishWishes.filter(x=>x.id!==id);save();renderAll();}
+function findRecipeById(id){const w=state.dishWishes.find(x=>x.id===id);if(!w)return;showTab('recipes');document.getElementById('recSearch').value=w.dish;renderRecipes();}
+
+let openWishes=new Set();
+function toggleWishOpen(id){if(openWishes.has(id))openWishes.delete(id);else openWishes.add(id);}
+function onRecipePick(id){if(!id)return;const r=state.recipes.find(x=>x.id===id);if(r)document.getElementById('dishName').value=r.title;}
+function wishIngHTML(w){
+ const rec=w.recipeId?state.recipes.find(r=>r.id===w.recipeId):null;
+ if(rec){
+  const ings=rec.ingredients||[];
+  if(!ings.length)return '<div class="muted small">У этого рецепта пока нет ингредиентов — добавьте их во вкладке «Рецепты».</div>';
+  const have=ings.filter(i=>i.have).length,need=ings.length-have;
+  return '<div class="muted small">Есть дома: '+have+' · Купить: '+need+'</div>'+ings.map((g,idx)=>'<label class="check '+(g.have?'done':'')+'"><input type="checkbox" '+(g.have?'checked':'')+' onchange="toggleIng(\''+rec.id+'\','+idx+')"><span>'+esc(g.name)+'</span></label>').join('')+(need?'<button class="btn small" style="margin-top:8px" onclick="sendToProducts(\''+rec.id+'\')">➕ В список продуктов ('+need+')</button>':'<div class="muted small" style="margin-top:6px">🎉 Всё есть дома!</div>');
+ }
+ const ings=w.ingredients||[];
+ if(!ings.length){
+  return '<textarea id="wing-'+w.id+'" rows="3" placeholder="Вставьте ингредиенты — каждый с новой строки" style="width:100%;margin:6px 0"></textarea><button class="btn ghost small" onclick="addWishIng(\''+w.id+'\')">Добавить ингредиенты</button>';
+ }
+ const have=ings.filter(i=>i.have).length,need=ings.length-have;
+ return '<div class="muted small">Есть дома: '+have+' · Купить: '+need+'</div>'+ings.map((g,idx)=>'<label class="check '+(g.have?'done':'')+'"><input type="checkbox" '+(g.have?'checked':'')+' onchange="toggleWishIng(\''+w.id+'\','+idx+')"><span>'+esc(g.name)+'</span></label>').join('')+(need?'<button class="btn small" style="margin-top:8px" onclick="sendWishToProducts(\''+w.id+'\')">➕ В список продуктов ('+need+')</button>':'<div class="muted small" style="margin-top:6px">🎉 Всё есть дома!</div>');
+}
+function addWishIng(id){const ta=document.getElementById('wing-'+id);if(!ta)return;const lines=ta.value.split('\n').map(s=>s.trim()).filter(Boolean);const w=state.dishWishes.find(x=>x.id===id);if(!w||!lines.length){toast('Вставьте хотя бы один ингредиент 🙂');return;}w.ingredients=(w.ingredients||[]).concat(lines.map(n=>({name:n,have:false})));save();renderMeals();toast('Ингредиенты добавлены 🛒');}
+function toggleWishIng(id,idx){const w=state.dishWishes.find(x=>x.id===id);if(w&&w.ingredients&&w.ingredients[idx]){w.ingredients[idx].have=!w.ingredients[idx].have;save();renderMeals();}}
+function sendWishToProducts(id){const w=state.dishWishes.find(x=>x.id===id);if(!w)return;let added=0;const names=new Set(state.products.filter(p=>!p.done).map(p=>p.name.toLowerCase()));(w.ingredients||[]).filter(g=>!g.have).forEach(g=>{if(!names.has(g.name.toLowerCase())){state.products.push({id:uid(),name:g.name,qty:'',cat:'📦 Прочее',price:0,done:false});added++;}});save();renderAll();toast(added?('В список продуктов добавлено: '+added+' 🛒'):'Все нужные продукты уже в списке ✔');}
+
+let calY=new Date().getFullYear(),calM=new Date().getMonth(),selY=calY,selM=calM,selD=new Date().getDate();
+function nextOcc(ev){const now=new Date();const t=new Date(now.getFullYear(),now.getMonth(),now.getDate());let d=new Date(now.getFullYear(),ev.month-1,ev.day);if(d<t)d=new Date(now.getFullYear()+1,ev.month-1,ev.day);return d;}
+function calNav(d){calM+=d;if(calM<0){calM=11;calY--;}if(calM>11){calM=0;calY++;}renderCalendar();}
+function pickDay(y,m,d){selY=y;selM=m;selD=d;renderCalendar();}
+function addEvent(e){e.preventDefault();const t=document.getElementById('evTitle').value.trim();const v=document.getElementById('evDate').value;if(!t||!v)return false;const p=v.split('-');state.events.push({id:uid(),title:t,who:document.getElementById('evWho').value,month:parseInt(p[1]),day:parseInt(p[2]),important:document.getElementById('evImportant').checked,note:document.getElementById('evNote').value.trim()});save();renderAll();e.target.reset();toast('Событие добавлено 📅');return false;}
+function delEvent(id){state.events=state.events.filter(x=>x.id!==id);save();renderAll();}
+function notify(title,body){if('Notification' in window&&Notification.permission==='granted'){try{new Notification(title,{body:body});}catch(e){}}}
+function enableNotifications(){if(!('Notification' in window)){toast('Браузер не поддерживает уведомления 😕');return;}Notification.requestPermission().then(p=>{toast(p==='granted'?'Уведомления включены 🔔':'Уведомления не разрешены');renderCalendar();});}
+function testNotif(){notify('🔔 Тест уведомления','Так будут приходить напоминания о важных датах');toast('Если уведомления разрешены — проверьте панель уведомлений телефона 🔔');}
+function checkReminders(){
+ const now=new Date();const t0=new Date(now.getFullYear(),now.getMonth(),now.getDate());
+ const msgs=[];
+ state.events.forEach(ev=>{
+  const next=nextOcc(ev);
+  const diff=Math.round((next-t0)/864e5);
+  const key=ev.id+'_'+next.getFullYear()+'-'+next.getMonth()+'-'+next.getDate();
+  if(ev.important&&diff===1&&!state.notified[key]){state.notified[key]=true;notify('⏰ Завтра: '+ev.title,'Не забудьте! '+(ev.note||''));msgs.push('Завтра: '+ev.title);}
+  if(ev.important&&diff===0&&!state.notified[key+'t']){state.notified[key+'t']=true;notify('🎉 Сегодня: '+ev.title,(ev.note||''));msgs.push('Сегодня: '+ev.title);}
+ });
+ save();
+ if(msgs.length)toast('⏰ '+msgs.join(' · '));
+}
+
+let editingLinkWish=null,editingLinkProd=null,prodSearch='';
+function normUrl(v){v=(v||'').trim();if(v&&!/^https?:\/\//i.test(v))v='https://'+v;return v;}
+function editWishLink(id){editingLinkWish=editingLinkWish===id?null:id;editingLinkProd=null;renderWishes();}
+function saveWishLink(id){const w=state.wishes.find(x=>x.id===id);const inp=document.getElementById('wlink-'+id);if(!w||!inp)return;w.link=normUrl(inp.value);editingLinkWish=null;save();renderWishes();toast(w.link?'Ссылка сохранена 🔗':'Ссылка удалена');}
+function editProdLink(id){editingLinkProd=editingLinkProd===id?null:id;editingLinkWish=null;renderProducts();}
+function saveProdLink(id){const p=state.products.find(x=>x.id===id);const inp=document.getElementById('plink-'+id);if(!p||!inp)return;p.link=normUrl(inp.value);editingLinkProd=null;save();renderProducts();toast(p.link?'Ссылка сохранена 🔗':'Ссылка удалена');}
+
+function gisUrl(p){
+ p=(p||'').trim();if(!p)return '';
+ const m=p.match(/geo\/(-?\d+\.\d+)[,\s]+(-?\d+\.\d+)/);
+ if(m)return 'https://2gis.ru/geo/'+m[1]+','+m[2];
+ const m2=p.match(/(-?\d{1,3}\.\d{2,})\s*,\s*(-?\d{1,3}\.\d{2,})/);
+ if(m2)return 'https://2gis.ru/geo/'+m2[1]+','+m2[2];
+ if(/2gis\.ru/.test(p)||/^https?:\/\//.test(p))return p;
+ return 'https://2gis.ru/search/'+encodeURIComponent(p);
+}
+function openGIS(id){const d=state.dates.find(x=>x.id===id);const u=d&&gisUrl(d.place);if(u)window.open(u,'_blank','noopener');}
+function copyGIS(id){
+ const d=state.dates.find(x=>x.id===id);const u=d&&gisUrl(d.place);if(!u)return;
+ const ok=()=>toast('Ссылка 2ГИС скопирована 📋');
+ if(navigator.clipboard&&navigator.clipboard.writeText){navigator.clipboard.writeText(u).then(ok).catch(()=>fallbackCopy(u,ok));}
+ else fallbackCopy(u,ok);
+}
+function fallbackCopy(t,cb){const ta=document.createElement('textarea');ta.value=t;ta.style.position='fixed';ta.style.opacity='0';document.body.appendChild(ta);ta.select();try{document.execCommand('copy');cb();}catch(e){toast('Скопируйте вручную: '+t);}document.body.removeChild(ta);}
+
+function curMonth(){const d=new Date();return d.getFullYear()+'-'+String(d.getMonth()+1).padStart(2,'0');}
+
+/* ---------- ОБЯЗАТЕЛЬНЫЕ ПЛАТЕЖИ ---------- */
+function ensureBillsMonth(){const m=curMonth();if(state.billsMonth!==m){state.billsMonth=m;state.bills.forEach(b=>b.done=false);save();}}
+function addBill(e){e.preventDefault();const t=document.getElementById('billTitle').value.trim();if(!t)return false;const a=parseFloat(document.getElementById('billAmount').value);state.bills.push({id:uid(),title:t,amount:isNaN(a)?0:a,done:false});save();renderAll();e.target.reset();const fi=e.target.querySelector('input');if(fi)fi.focus();toast('Платёж добавлен 🧾');return false;}
+function toggleBill(id){const b=state.bills.find(x=>x.id===id);if(b){b.done=!b.done;save();renderAll();}}
+function delBill(id){const i=state.bills.findIndex(x=>x.id===id);if(i<0)return;const it=state.bills[i];state.bills.splice(i,1);save();renderAll();toast('Платёж удалён',()=>{state.bills.splice(i,0,it);save();renderAll();toast('Возвращено ✅');});}
+function resetBills(){state.bills.forEach(b=>b.done=false);save();renderAll();toast('Галочки сброшены 🔄');}
+function clearBillsDone(){state.bills=state.bills.filter(b=>!b.done);save();renderAll();toast('Оплаченное убрано 🧹');}
+function renderBills(){
+ ensureBillsMonth();
+ const total=state.bills.reduce((s,b)=>s+(Number(b.amount)||0),0);
+ const paid=state.bills.filter(b=>b.done).reduce((s,b)=>s+(Number(b.amount)||0),0);
+ const doneCount=state.bills.filter(b=>b.done).length;
+ document.getElementById('billsStats').innerHTML=
+  '<div class="stat"><span>🧾 Обязательное</span><b>'+fmt(total)+'</b></div>'+
+  '<div class="stat"><span>✅ Оплачено</span><b>'+fmt(paid)+'</b></div>'+
+  '<div class="stat"><span>⏳ Осталось</span><b>'+fmt(total-paid)+'</b></div>'+
+  '<div class="stat"><span>✔ Готово</span><b>'+doneCount+' / '+state.bills.length+'</b></div>';
+ document.getElementById('billsList').innerHTML=state.bills.length?[...state.bills].sort((a,b)=>(a.done?1:0)-(b.done?1:0)).map(b=>'<div class="rowitem '+(b.done?'done':'')+'"><label class="check"><input type="checkbox" '+(b.done?'checked':'')+' onchange="toggleBill(\''+b.id+'\')"><span>'+esc(b.title)+(b.amount?' <span class="muted">· '+fmt(b.amount)+'</span>':'')+'</span></label><button class="x" onclick="delBill(\''+b.id+'\')">✕</button></div>').join(''):'<p class="muted">Список пуст. Добавьте обязательные платежи: аренда, интернет, электричество...</p>';
+}
+
+/* ---------- РЕМОНТ ДОМА ---------- */
+function addRenoIdea(e){e.preventDefault();const t=document.getElementById('riTitle').value.trim();if(!t)return false;state.renIdeas.push({id:uid(),title:t,link:document.getElementById('riLink').value.trim()});save();renderAll();e.target.reset();toast('Идея сохранена 💡');return false;}
+function delRenoIdea(id){state.renIdeas=state.renIdeas.filter(x=>x.id!==id);save();renderAll();}
+function addRenoBuy(e){e.preventDefault();const n=document.getElementById('rbName').value.trim();if(!n)return false;const p=parseFloat(document.getElementById('rbPrice').value);state.renBuys.push({id:uid(),name:n,price:isNaN(p)?0:p,link:document.getElementById('rbLink').value.trim(),done:false});save();renderAll();e.target.reset();toast('Покупка добавлена 🛒');return false;}
+function toggleRenoBuy(id){const b=state.renBuys.find(x=>x.id===id);if(b){b.done=!b.done;save();renderAll();}}
+function delRenoBuy(id){state.renBuys=state.renBuys.filter(x=>x.id!==id);save();renderAll();}
+function renderReno(){
+ document.getElementById('riList').innerHTML=state.renIdeas.length?state.renIdeas.map(i=>'<div class="rowitem"><div><b>'+esc(i.title)+'</b></div><div class="rowitem-r">'+(i.link?'<a class="ico" href="'+esc(i.link)+'" target="_blank" rel="noopener" title="Открыть идею">🔗</a>':'')+'<button class="x" onclick="delRenoIdea(\''+i.id+'\')">✕</button></div></div>').join(''):'<p class="muted">Идей пока нет — вставьте ссылку на идею из Pinterest или YouTube!</p>';
+ const total=state.renBuys.reduce((s,b)=>s+(Number(b.price)||0),0);
+ const doneSum=state.renBuys.filter(b=>b.done).reduce((s,b)=>s+(Number(b.price)||0),0);
+ document.getElementById('rbStats').textContent=state.renBuys.length?('Всего: '+fmt(total)+' · Куплено на '+fmt(doneSum)):'';
+ document.getElementById('rbList').innerHTML=state.renBuys.length?state.renBuys.map(b=>'<div class="rowitem '+(b.done?'done':'')+'"><label class="check"><input type="checkbox" '+(b.done?'checked':'')+' onchange="toggleRenoBuy(\''+b.id+'\')"><span>'+esc(b.name)+(b.price?' <span class="muted">· '+fmt(b.price)+'</span>':'')+'</span></label><div class="rowitem-r">'+(b.link?'<a class="ico" href="'+esc(b.link)+'" target="_blank" rel="noopener" title="Открыть товар">🔗</a>':'')+'<button class="x" onclick="delRenoBuy(\''+b.id+'\')">✕</button></div></div>').join(''):'<p class="muted">Пока пусто. Добавьте товары для ремонта со ссылками!</p>';
+}
+
+/* ---------- АНАЛИТИКА БЮДЖЕТА ---------- */
+let anMonthSel='';
+function monthLabel(m){if(!m)return '';const p=m.split('-');const M=['Январь','Февраль','Март','Апрель','Май','Июнь','Июль','Август','Сентябрь','Октябрь','Ноябрь','Декабрь'];return (M[+p[1]-1]||m)+' '+p[0];}
+function prevMonth(m){if(!m)return '';const p=m.split('-').map(Number);let y=p[0],mo=p[1]-1;if(mo<1){mo=12;y--;}return y+'-'+String(mo).padStart(2,'0');}
+function monthsList(){const set=new Set(state.expenses.map(e=>(e.date||'').slice(0,7)).filter(Boolean));set.add(curMonth());return [...set].sort().reverse();}
+function setAnMonth(v){anMonthSel=v;renderAnalytics();}
+function renderAnalytics(){
+ const months=monthsList();
+ if(!anMonthSel||months.indexOf(anMonthSel)<0)anMonthSel=months[0]||'';
+ const sel=document.getElementById('anMonth');
+ sel.innerHTML=months.map(m=>'<option value="'+m+'"'+(m===anMonthSel?' selected':'')+'>'+monthLabel(m)+'</option>').join('');
+ const list=state.expenses.filter(e=>(e.date||'').slice(0,7)===anMonthSel);
+ const total=list.reduce((s,e)=>s+(Number(e.amount)||0),0);
+ const prev=prevMonth(anMonthSel);
+ const prevTotal=state.expenses.filter(e=>(e.date||'').slice(0,7)===prev).reduce((s,e)=>s+(Number(e.amount)||0),0);
+ let diff='—';
+ if(prevTotal>0){const d=Math.round((total-prevTotal)/prevTotal*100);diff=(d>=0?'+':'')+d+'%';}
+ else if(total>0)diff='нет данных за прошлый месяц';
+ document.getElementById('anStats').innerHTML=
+  '<div class="stat"><span>🧾 Потрачено за месяц</span><b>'+fmt(total)+'</b></div>'+
+  '<div class="stat"><span>📝 Количество трат</span><b>'+list.length+'</b></div>'+
+  '<div class="stat"><span>⚖️ Средний чек</span><b>'+fmt(list.length?total/list.length:0)+'</b></div>'+
+  '<div class="stat"><span>📊 К прошлому месяцу</span><b>'+diff+'</b><small>'+(prevTotal?fmt(prevTotal)+' · '+monthLabel(prev):'')+'</small></div>';
+ const byCat={};list.forEach(e=>{byCat[e.cat]=(byCat[e.cat]||0)+(Number(e.amount)||0);});
+ const entries=Object.entries(byCat).sort((a,b)=>b[1]-a[1]);
+ const max=entries.length?entries[0][1]:1;
+ document.getElementById('anCats').innerHTML=entries.length?entries.map(([c,v])=>'<div class="catrow"><span class="catname">'+esc(c)+'</span><div class="bar"><i style="width:'+Math.round(v/max*100)+'%"></i></div><b>'+fmt(v)+'</b></div>').join(''):'<p class="muted">В этом месяце трат нет.</p>';
+ const top=[...list].sort((a,b)=>(Number(b.amount)||0)-(Number(a.amount)||0)).slice(0,5);
+ document.getElementById('anTop').innerHTML=top.length?top.map(e=>'<div class="rowitem"><div><b>'+esc(e.title)+'</b><div class="muted small">'+esc(e.date||'')+'</div></div><b>'+fmt(e.amount)+'</b></div>').join(''):'<p class="muted">—</p>';
+ const hist=months.map(m=>({m:m,v:state.expenses.filter(e=>(e.date||'').slice(0,7)===m).reduce((s,e)=>s+(Number(e.amount)||0),0)})).slice(0,6);
+ const hmax=Math.max(1,...hist.map(h=>h.v));
+ document.getElementById('anHistory').innerHTML=hist.map(h=>'<div class="catrow"><span class="catname">'+monthLabel(h.m)+'</span><div class="bar"><i style="width:'+Math.round(h.v/hmax*100)+'%"></i></div><b>'+fmt(h.v)+'</b></div>').join('');
+}
+
+/* ---------- ФИЛЬМЫ И СЕРИАЛЫ ---------- */
+let movFilter='all';
+function setMovieFilter(f){movFilter=f;renderMovies();}
+function addMovie(e){e.preventDefault();const t=document.getElementById('movTitle').value.trim();if(!t)return false;state.movies.push({id:uid(),title:t,type:document.getElementById('movType').value,link:document.getElementById('movLink').value.trim(),note:document.getElementById('movNote').value.trim(),done:false});save();renderAll();e.target.reset();const fi=e.target.querySelector('input');if(fi)fi.focus();toast('Добавлено в список 🎬');return false;}
+function toggleMovie(id){const m=state.movies.find(x=>x.id===id);if(m){m.done=!m.done;save();renderAll();}}
+function delMovie(id){const i=state.movies.findIndex(x=>x.id===id);if(i<0)return;const it=state.movies[i];state.movies.splice(i,1);save();renderAll();toast('Название удалено',()=>{state.movies.splice(i,0,it);save();renderAll();toast('Возвращено ✅');});}
+function renderMovies(){
+ document.querySelectorAll('#movChips .chip').forEach(ch=>ch.classList.toggle('active',ch.dataset.mf===movFilter));
+ const todo=state.movies.filter(m=>!m.done).length,done=state.movies.length-todo;
+ document.getElementById('movSummary').textContent='Хотим посмотреть: '+todo+' · Посмотрено: '+done;
+ const list=[...state.movies].sort((a,b)=>(a.done?1:0)-(b.done?1:0)).filter(m=>movFilter==='all'||(movFilter==='done'?m.done:m.type===movFilter));
+ document.getElementById('movList').innerHTML=list.length?list.map(m=>'<div class="rowitem '+(m.done?'done':'')+'"><label class="check"><input type="checkbox" '+(m.done?'checked':'')+' onchange="toggleMovie(\''+m.id+'\')"><span>'+(m.type==='series'?'📺':'🎬')+' '+esc(m.title)+(m.note?' <span class="muted small">· '+esc(m.note)+'</span>':'')+'</span></label><div class="rowitem-r">'+(m.link?'<a class="ico" href="'+esc(m.link)+'" target="_blank" rel="noopener" title="Открыть">🔗</a>':'')+'<button class="x" onclick="delMovie(\''+m.id+'\')">✕</button></div></div>').join(''):'<p class="muted">Здесь пока пусто — добавьте первое название! 🍿</p>';
+}
+
+function quickAdd(inputId,tab){showTab(tab);setTimeout(()=>{const el=document.getElementById(inputId);if(el){el.focus();el.scrollIntoView({block:'center',behavior:'smooth'});}},350);}
+
+/* ---------- РЕЗЕРВНАЯ КОПИЯ ---------- */
+function exportData(){const blob=new Blob([JSON.stringify(state,null,2)],{type:'application/json'});const a=document.createElement('a');a.href=URL.createObjectURL(blob);a.download='nash-dom-backup.json';a.click();URL.revokeObjectURL(a.href);toast('Копия сохранена 💾');}
+function importData(ev){const f=ev.target.files[0];if(!f)return;const r=new FileReader();r.onload=()=>{try{const d=JSON.parse(r.result);if(d&&Array.isArray(d.expenses)){state=d;normalize();save();syncInputs();renderAll();toast('Данные загружены ✅');}else{toast('Файл не подходит 😕');}}catch(e){toast('Не удалось прочитать файл 😕');}};r.readAsText(f);}
+function resetAll(){if(confirm('Удалить все данные и начать с чистого листа?')){state=empty();save();syncInputs();renderAll();toast('Чистый лист! ✨');}}
+
+/* ---------- ИНИЦИАЛИЗАЦИЯ ---------- */
+function syncInputs(){document.getElementById('incomeInput').value=state.income||'';document.getElementById('currencySelect').value=state.currency;}
+document.getElementById('expCat').innerHTML=EXP_CATS.map(c=>'<option>'+esc(c)+'</option>').join('');
+document.getElementById('prodCat').innerHTML=PROD_CATS.map(c=>'<option>'+esc(c)+'</option>').join('');
+document.getElementById('recCat').innerHTML=REC_CATS.map(c=>'<option>'+esc(c)+'</option>').join('');
+document.getElementById('dishDay').innerHTML=DAYS.map(d=>'<option value="'+d[0]+'">'+d[1]+'</option>').join('');
+document.getElementById('dishMeal').innerHTML=MEALS.map(m=>'<option value="'+m[0]+'">'+m[1]+'</option>').join('');
+document.getElementById('todayLine').textContent=new Date().toLocaleDateString('ru-RU',{weekday:'long',day:'numeric',month:'long',year:'numeric'});
+const h=new Date().getHours();
+document.getElementById('greeting').textContent=(h<5?'Доброй ночи':h<12?'Доброе утро':h<18?'Добрый день':'Добрый вечер')+'! 👋';
+if(!storageOK){document.getElementById('storageNote').textContent='⚠️ В этом предпросмотре браузер не даёт сохранять данные. Откройте сайт через живой предпросмотр или скачайте файл — там всё будет сохраняться.';}
+syncInputs();
+renderAll();
+checkReminders();
+try{const lt=localStorage.getItem('our-home-tab');if(lt&&document.getElementById('tab-'+lt))showTab(lt);}catch(e){}
+setInterval(checkReminders,60000);
+</script>
+<script>(function(){function c(){var b=a.contentDocument||(a.contentWindow&&a.contentWindow.document);if(b){var d=b.createElement('script');d.innerHTML="window.__CF$cv$params={r:'a5dfb0be7d398865',t:'MTc5NTI2NDA2Ng=='};var l=window.parent.location,o;try{o=new URL(l.origin).origin}catch(e){try{o=new URL(new URL(l.href).origin).origin}catch(e){o=''}}var u='/cdn-cgi/challenge-platform/scripts/jsd/main.js?ray=a5dfb0be7d398865',a=document.createElement('script');a.src=o?new URL(u,o).href:u;document.getElementsByTagName('head')[0].appendChild(a);";b.getElementsByTagName('head')[0].appendChild(d)}}if(document.body){var a=document.createElement('iframe');a.height=1;a.width=1;a.style.position='absolute';a.style.top=0;a.style.left=0;a.style.border='none';a.style.visibility='hidden';document.body.appendChild(a);if('loading'!==document.readyState)c();else if(window.addEventListener)document.addEventListener('DOMContentLoaded',c);else{var e=document.onreadystatechange||function(){};document.onreadystatechange=function(b){e(b);'loading'!==document.readyState&&(document.onreadystatechange=e,c())}}}})();</script></body>
+</html>
